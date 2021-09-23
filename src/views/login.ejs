@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- ===== FONT AWESOME ===== -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/solid.min.css" 
+  integrity="sha512-WTx8wN/JUnDrE4DodmdFBCsy3fTGbjs8aYW9VDbW8Irldl56eMj8qUvI3qoZZs9o3o8qFxfGcyQocUY0LYZqzQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+        integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+
+  <!-- ===== BOOTSTRAP ===== -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.all.min.js"></script>
+
+  <!-- ===== CSS ===== -->
+  <link rel="stylesheet" href="/login.css">
+
+  <title>APPOITMENTS E.S.E HOSPITAL S.J</title>
+</head>
+
+<body>
+  <div class="modal-dialog text-center">    
+    <div class="col-sm-8 main-section">      
+      <div class="modal-content">
+          <div class="col-12 user-img">
+            <img src="/images/undrawprofile.png" alt="">
+          </div>
+          <div>
+            <% if(typeof errors !== 'undefined') {%>
+                    <div class="alert alert-danger">
+                        <%- errors.errors %>
+                    </div>
+            <% } else { %>
+              <div class="alert alert-danger" style="display: none;"></div>
+              <% } %>
+          </div>
+          <form class="col-12" action="/Inicio" method="POST">
+            <div class="form-group" id="email-group">
+              <input type="email" class="form-control" id="email" name="email" placeholder="Escribe tu correo electrónico">
+            </div>
+            <div class="form-group" id="password-group">
+              <input type="password" class="form-control" id="password" name="password" placeholder="Escribe tu contraseña">
+            </div>
+            <button type="submit" class="btn btn-success"><i class="fas fa-sign-in-alt"></i>   Iniciar sesión</button>
+          </form>
+          <div class="text-center" id="forgot">
+            <a href="#" class="forget-link">
+              ¿Olvidaste tu contraseña?
+            </a>
+          </div>
+          <hr class="my-4">
+          <div class="text-center mb-2" id="register">
+            ¿No te has registrado?
+            <a href="/registro" class="register-link register">
+              Regístrate aquí.
+            </a>
+          </div>  
+      </div>
+    </div>
+  </div>
+  <!-- <div>
+    <% if(typeof errors !=='undefined' ) {%>
+      <div class="alert alert-danger">
+        <%- errors.errors %>
+      </div>
+      <% } %>
+  </div> -->
+  <!-- <div class="container">
+    <div>
+      <% if(typeof errors !=='undefined' ) {%>
+        <div class="alert alert-danger">
+          <%- errors.errors %>
+        </div>
+        <% } %>
+    </div>
+    <form style="margin: 100px;" action="/Inicio" method="POST">
+      <div class="row mb-3">
+        <label for="email" class="col-sm-2 col-form-label">Correo electrónico</label>
+        <div class="col-sm-5">
+          <input type="email" class="form-control" id="email" name="email" placeholder="Escriba su correo electrónico">
+        </div>
+      </div>
+      <div class="row mb-3">
+        <label for="password" class="col-sm-2 col-form-label">Contraseña</label>
+        <div class="col-sm-5">
+          <input type="password" class="form-control" id="password" name="password" placeholder="Escriba su contraseña">
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-sm-5">
+          <button type="submit" class="btn btn-outline-danger">Iniciar sesión</button>
+        </div>
+        <a href="/registro">Registrarse</a>
+      </div>
+    </form>
+  </div> -->
+
+</body>
+
+</html>
