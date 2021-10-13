@@ -16,5 +16,5 @@ let getUser = (req, res) => {
 }
 
 module.exports = {
-    getUser: getUser,
+    getUser: getUser,    
 }

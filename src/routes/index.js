@@ -34,7 +34,10 @@ let Routes = (app) => {
     
 
     //RUTAS PARA LA PÁGINA DE ADMINISTRADOR  
-   
+    router.post('/ListaMedico',adminController.medicina);
+    router.post('/ListaOdontologo',adminController.odontologia);
+    router.post('/createAgendaMed',adminController.AgendaMed);
+    router.post('/createAgendaOdont',adminController.AgendaOdont);   
 
     return app.use("/", router);
 };
