@@ -36,7 +36,7 @@ app.use(flash());
 
 
 //CONFIGURACIÓN DE EXPRESS
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 4000);
 
 //MIDDLEWARES
 app.use(morgan('dev')); //Sirve para mostrar por consola el tipo de peticiones se le han pedido al servidor 

@@ -1,0 +1,81 @@
+body{
+    background: url(./images/undraw_doctors_hwty.png) no-repeat center center fixed;
+    background-size: cover;
+}
+
+.main-section{
+    margin:0 auto;
+    margin-top: 10%;
+    padding: 0%;
+}
+
+.modal-content{
+    background-color: rgb(33, 87, 60);
+    opacity: .95;
+    padding: 0 20px;
+    box-shadow: 0px 0px 3px #0D2513;
+}
+
+h6{
+    color: white;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 20px;
+}
+
+hr{
+    color: white;
+}
+
+.form-group input{
+    height: 40px;
+    font-size: 15px;
+    border: 0;
+    padding-left: 54px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+.form-group::before{
+    font-family: "Font Awesome\ 6 Free"; 
+    position: absolute;  
+    left: 28px;
+    font-size: 22px;
+    padding-top: 4px;
+}
+
+.form-group#name-group::before{
+    content: "\f304"; 
+    /* La serie de números y letras que está luego del slash la da el mismo ícono en la página web de font awesome */
+}
+
+.form-group#phone-group::before{
+    content: "\f3cd"; 
+    /* La serie de números y letras que está luego del slash la da el mismo ícono en la página web de font awesome */
+}
+
+.form-group#email-group::before{
+    content: "\f0e0"; 
+    /* La serie de números y letras que está luego del slash la da el mismo ícono en la página web de font awesome */
+}
+
+.form-group#password-group::before{
+    content: "\f084";
+}
+
+button{
+    width: 60%;
+}
+
+#forgot a{
+    color: white;
+    font-size: 14px;
+}
+
+#register{
+    color: white;
+}
+
+#register a{
+    color: white;
+    font-size: 14px;
+}

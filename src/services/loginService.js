@@ -24,13 +24,7 @@ let BuscarEmail = (email) => {
 let compararContraseñas = (password, usuario) => {
 
     return new Promise(async (resolve, reject) => {
-        try {
-            // if (password == usuario.Contraseña) {
-            //     resolve(true);
-            // } else {
-            //         console.log('Las contraseñas no coinciden')
-            //         resolve(false);
-            //     }
+        try {            
             await bcrypt.compare(password, usuario.Password).then((isMatch) => {
                 if (isMatch) {
                     console.log('SIUUUUUUUUUU')
@@ -63,7 +57,7 @@ let compararContraseñas = (password, usuario) => {
 };
 
 module.exports = {
-    compararContraseñas,
+    compararContraseñas: compararContraseñas,
     BuscarEmail: BuscarEmail,
     // findUserById: findUserById
 }

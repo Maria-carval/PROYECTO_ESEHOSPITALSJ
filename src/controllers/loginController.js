@@ -55,7 +55,7 @@ let Inicio = async (req, res, next) => {
 
                 } else {
                     req.session.context = { errors: (`Contraseña incorrecta`) };
-                    return res.redirect("/");
+                    return res.redirect("/Inicio");
                 }
             };
         })
