@@ -1,4 +1,5 @@
 import connection from "../configs/connectDB";
+import gmailController from "../controllers/gmailController";
 
 // AGENDA MEDICINA GENERAL //
 let crearAgendaMed = async (horarioMed) => {
@@ -10,7 +11,8 @@ let crearAgendaMed = async (horarioMed) => {
             Especialidad: horarioMed.especialidad,
             Dia: horarioMed.Dia,
             hora_Inicio: horarioMed.horaInicio,
-            hora_Fin: horarioMed.horaFin       
+            hora_Fin: horarioMed.horaFin,
+            IdDia: horarioMed.IdDia
         }
         var IdHorarioMed = await AgregarHorariosMed(variablesHorario);
 
@@ -24,17 +26,17 @@ let crearAgendaMed = async (horarioMed) => {
         }
         TimeSlot.pop();
         console.log(TimeSlot);
-        await AgregarHorariosMedInterval(horarioMed.Dia, horarioMed.Medico, horarioMed.especialidad, TimeSlot, IdHorarioMed);
+        await AgregarHorariosMedInterval(horarioMed.Dia, horarioMed.Medico, horarioMed.especialidad, TimeSlot, IdHorarioMed, horarioMed.IdDia);
         console.log(TimeSlot);
     }
 }
 
-let AgregarHorariosMed = (variablesHorario) => {  
+let AgregarHorariosMed = (variablesHorario) => {
 
-    console.log(variablesHorario);    
+    console.log(variablesHorario);
     return new Promise(async (resolve, reject) => {
         try {
-            console.log(variablesHorario);            
+            console.log(variablesHorario);
             connection.query(
                 ' INSERT INTO horarios set ? ', variablesHorario,
                 function (err, data) {
@@ -50,15 +52,15 @@ let AgregarHorariosMed = (variablesHorario) => {
     });
 }
 
-let AgregarHorariosMedInterval = (Dia, Medico, especialidad, horaInicio, IdHorario) => {
+let AgregarHorariosMedInterval = (Dia, Medico, especialidad, horaInicio, IdHorario, IdDia) => {
     return new Promise(async (resolve, reject) => {
         try {
             console.log(horaInicio);
-           
+
             horaInicio.forEach(element => {
                 connection.query(
-                    `INSERT INTO horario_intervalo (Dia, Doctor, Especialidad, Hora_Inicio, Id_Horario) 
-                    VALUES ("${Dia}", "${Medico}", "${especialidad}", "${element}", "${IdHorario}")`,
+                    `INSERT INTO horario_intervalo (Dia, Doctor, Especialidad, Hora_Inicio, Id_Horario, Id_Dia) 
+                    VALUES ("${Dia}", "${Medico}", "${especialidad}", "${element}", "${IdHorario}", "${IdDia}")`,
                     function (err, data) {
                         if (err) {
                             reject(false)
@@ -84,7 +86,7 @@ let crearAgendaOdont = async (horarioOdont) => {
             Especialidad: horarioOdont.especialidad,
             Dia: horarioOdont.Dia,
             hora_Inicio: horarioOdont.horaInicio,
-            hora_Fin: horarioOdont.horaFin       
+            hora_Fin: horarioOdont.horaFin
         }
         var IdHorarioOdont = await AgregarHorariosOdont(variablesHorario1);
 
@@ -103,12 +105,12 @@ let crearAgendaOdont = async (horarioOdont) => {
     }
 }
 
-let AgregarHorariosOdont = (variablesHorario1) => {  
+let AgregarHorariosOdont = (variablesHorario1) => {
 
-    console.log(variablesHorario1);    
+    console.log(variablesHorario1);
     return new Promise(async (resolve, reject) => {
         try {
-            console.log(variablesHorario1);            
+            console.log(variablesHorario1);
             connection.query(
                 ' INSERT INTO horarios set ? ', variablesHorario1,
                 function (err, data) {
@@ -128,7 +130,7 @@ let AgregarHorariosOdontInterval = (Dia, Medico, especialidad, horaInicio, IdHor
     return new Promise(async (resolve, reject) => {
         try {
             console.log(horaInicio);
-           
+
             horaInicio.forEach(element => {
                 connection.query(
                     `INSERT INTO horario_intervalo (Dia, Doctor, Especialidad, Hora_Inicio, Id_Horario) 
@@ -157,8 +159,50 @@ function addMinutes(time, minutes) {
     return tempTime;
 }
 
+let EmailRechazar = async (variablesRechazar) => {
+
+    var body;
+    console.log(variablesRechazar.correo);
+    console.log(variablesRechazar.descripcion);
+    if (!variablesRechazar.descripcion) {
+        body = `<h4>Estimado/a <em> ${variablesRechazar.nombre} ${variablesRechazar.apellido}.</em></h4>
+        <div class="text-center mb-2">
+    Se le informa que su solicitud de cita médica para ${variablesRechazar.especialidad} con el/la doctor(a) ${variablesRechazar.doctor} para el día ${variablesRechazar.fechaDia} de ${variablesRechazar.fechaMes} del año ${variablesRechazar.fechaYear} a las ${variablesRechazar.hora} ha sido rechazada.
+    </div>
+    <hr class="my-4">
+    <div class="text-center mb-2">
+      ¿Tiene alguna inquietud al respecto? Favor comunicarse a la línea
+      <a href="#" class="register-link">
+      (57) (5) 6868098
+      </a>
+      <p><small><em>Por favor no responder este correo.</em></small></p>
+      </div>`
+    } else {
+       body = `<h4>Estimado/a <em> ${variablesRechazar.nombre} ${variablesRechazar.apellido}.</em></h4>
+    <div class="text-center mb-2">
+    Se le informa que su solicitud de cita médica para ${variablesRechazar.especialidad} con el/la doctor(a) ${variablesRechazar.doctor} para el día ${variablesRechazar.fechaDia} de ${variablesRechazar.fechaMes} del año ${variablesRechazar.fechaYear} a las ${variablesRechazar.hora} ha sido rechazada.
+    </div>
+    <div class="text-center mb-2">
+    
+    <strong>
+    ${variablesRechazar.descripcion}
+    </strong>
+    </div>
+    <hr class="my-4">
+    <div class="text-center mb-2">
+      ¿Tiene alguna inquietud al respecto? Favor comunicarse a la línea
+      <a href="#" class="register-link">
+      (57) (5) 6868098
+      </a>    
+      <p><small><em>Por favor no responder este correo.</em></small></p>  
+      </div>`
+    }
+    gmailController.sendEmail(variablesRechazar.correo, 'IMPORTANTE: Solicitud de cita médica - ESE HOSPITAL SAN JACINTO', body)
+};
+
 module.exports = {
     crearAgendaMed: crearAgendaMed,
     crearAgendaOdont: crearAgendaOdont,
-    addMinutes: addMinutes    
+    addMinutes: addMinutes,
+    EmailRechazar: EmailRechazar
 }

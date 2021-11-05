@@ -1,0 +1,15 @@
+.redText{
+    color: red;
+}
+
+.form-label{
+    margin-top: 20px !important;
+}
+
+#tabla {    
+    text-align: center; 
+}
+
+#fecha[readonly]{
+    background-color: transparent !important;     
+}

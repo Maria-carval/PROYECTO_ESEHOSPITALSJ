@@ -31,13 +31,24 @@ let Routes = (app) => {
     router.get("/admin/admin", adminController.getAdmin);
    
     //RUTAS PARA LA PÁGINA DE USUARIO    
-    
+    router.post('/Especialidad', userController.OpcionesEspe);
+    router.post('/Doctor', userController.OpcionesDr);
+    router.post('/listaEPS', userController.OpcionesEPS);
+    router.post('/OpcionesHorario',userController.OpcionesHorario);
+    //router.post('/datosHorario',userController.AgendaHorario);
+    router.post('/EnviarDatos',userController.SolicitarCita);
+    router.post('/InfoTabla', userController.TablaHorario)
+    //router.post('/InfoTabla',userController.LlenarTablaHorario);
 
     //RUTAS PARA LA PÁGINA DE ADMINISTRADOR  
+    router.get('/Solicitudes',adminController.Solicitudes);
     router.post('/ListaMedico',adminController.medicina);
     router.post('/ListaOdontologo',adminController.odontologia);
     router.post('/createAgendaMed',adminController.AgendaMed);
-    router.post('/createAgendaOdont',adminController.AgendaOdont);   
+    router.post('/createAgendaOdont',adminController.AgendaOdont); 
+    
+    router.post('/SolicitudIndividual',adminController.SolicitudesIndivial);
+    router.post('/RechazarSolicitud',adminController.Rechazar);
 
     return app.use("/", router);
 };
