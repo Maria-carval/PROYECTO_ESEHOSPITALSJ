@@ -11,8 +11,7 @@ let crearAgendaMed = async (horarioMed) => {
             Especialidad: horarioMed.especialidad,
             Dia: horarioMed.Dia,
             hora_Inicio: horarioMed.horaInicio,
-            hora_Fin: horarioMed.horaFin,
-            IdDia: horarioMed.IdDia
+            hora_Fin: horarioMed.horaFin
         }
         var IdHorarioMed = await AgregarHorariosMed(variablesHorario);
 
@@ -26,7 +25,7 @@ let crearAgendaMed = async (horarioMed) => {
         }
         TimeSlot.pop();
         console.log(TimeSlot);
-        await AgregarHorariosMedInterval(horarioMed.Dia, horarioMed.Medico, horarioMed.especialidad, TimeSlot, IdHorarioMed, horarioMed.IdDia);
+        await AgregarHorariosMedInterval(horarioMed.Dia, horarioMed.Medico, horarioMed.especialidad, TimeSlot, IdHorarioMed);
         console.log(TimeSlot);
     }
 }
@@ -52,15 +51,15 @@ let AgregarHorariosMed = (variablesHorario) => {
     });
 }
 
-let AgregarHorariosMedInterval = (Dia, Medico, especialidad, horaInicio, IdHorario, IdDia) => {
+let AgregarHorariosMedInterval = (Dia, Medico, especialidad, horaInicio, IdHorario) => {
     return new Promise(async (resolve, reject) => {
         try {
             console.log(horaInicio);
 
             horaInicio.forEach(element => {
                 connection.query(
-                    `INSERT INTO horario_intervalo (Dia, Doctor, Especialidad, Hora_Inicio, Id_Horario, Id_Dia) 
-                    VALUES ("${Dia}", "${Medico}", "${especialidad}", "${element}", "${IdHorario}", "${IdDia}")`,
+                    `INSERT INTO horario_intervalo (Dia, Doctor, Especialidad, Hora_Inicio, Id_Horario) 
+                    VALUES ("${Dia}", "${Medico}", "${especialidad}", "${element}", "${IdHorario}")`,
                     function (err, data) {
                         if (err) {
                             reject(false)
@@ -150,6 +149,81 @@ let AgregarHorariosOdontInterval = (Dia, Medico, especialidad, horaInicio, IdHor
     });
 }
 
+// AGENDA LABORATORIOS //
+let crearAgendaLab = async (horarioLab) => {
+    var Intervalo = "15";
+    //console.log(horarioMed);
+    if (horarioLab.horaInicio !== '' && horarioLab.horaFin !== '') {
+        var variablesHorarioLab = {
+            Examen: horarioLab.Examen,
+            Dia: horarioLab.Dia,
+            horaInicio: horarioLab.horaInicio,
+            horaFin: horarioLab.horaFin
+        }
+        var IdHorarioLab = await AgregarHorariosLab(variablesHorarioLab);
+
+        var StartT = horarioLab.horaInicio;
+        var EndT = horarioLab.horaFin;
+        var TimeSlot = [StartT];
+
+        while (StartT != EndT) {
+            StartT = addMinutes(StartT, Intervalo);
+            TimeSlot.push(StartT);
+        }
+        TimeSlot.pop();
+        console.log(TimeSlot);
+        await AgregarHorariosLabInterval(horarioLab.Dia, horarioLab.Examen, TimeSlot, IdHorarioLab);
+        console.log(TimeSlot);
+    }
+}
+
+let AgregarHorariosLab = (variablesHorarioLab) => {
+
+    console.log(variablesHorarioLab);
+    return new Promise(async (resolve, reject) => {
+        try {
+            console.log(variablesHorarioLab);
+            connection.query(
+                ' INSERT INTO horarioslab set ? ', variablesHorarioLab,
+                function (err, data) {
+                    if (err) {
+                        reject(false)
+                    }
+                    resolve(data.insertId);
+                }
+            );
+        } catch (e) {
+            reject(e);
+        }
+    });
+}
+
+let AgregarHorariosLabInterval = (Dia, Examen, horaInicio, IdHorarioLab) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            console.log(horaInicio);
+            console.log(IdHorarioLab)
+            horaInicio.forEach(element => {
+                // console.log('QUE PASA')
+                connection.query(
+                    `INSERT INTO horariolab_intervalo (Dia, Examen, Hora_Inicio, idhorariolab) 
+                    VALUES ("${Dia}", "${Examen}", "${element}", "${IdHorarioLab}")`,
+                    function (err, data) {
+                        if (err) {
+                            reject(false)
+                        }
+                        resolve("Adición exitosa");
+                    }
+                );
+            });
+        } catch (e) {
+            console.log(e);
+            reject(e);
+        }
+    });
+}
+
+
 // PARA HACER LA DIVICIÓN DEL TIEMPO //
 function addMinutes(time, minutes) {
     var date = new Date(new Date('01/01/2015 ' + time).getTime() + minutes * 60000);
@@ -159,13 +233,50 @@ function addMinutes(time, minutes) {
     return tempTime;
 }
 
+let EmailAceptar = async (variablesAceptar) => {
+
+    var body;
+    console.log(variablesAceptar.correo);
+    if (variablesAceptar.tipocita == 'Cita médica') {
+        body = `<h4>Estimado/a <em> ${variablesAceptar.nombre} ${variablesAceptar.apellido}.</em></h4>
+    <div class="text-center mb-2">
+    Se le informa que su solicitud de cita médica para ${variablesAceptar.especialidad} con el/la doctor(a) ${variablesAceptar.doctor} ha sido aceptada para el día ${variablesAceptar.fechaDia} de ${variablesAceptar.fechaMes} del año ${variablesAceptar.fechaYear} a las ${variablesAceptar.hora}.
+    </div>
+    <hr class="my-4">
+    <div class="text-center mb-2">
+      ¿Tiene alguna inquietud al respecto? Favor comunicarse a la línea
+      <a href="#" class="register-link">
+      (57) (5) 6868098
+      </a>
+      <p><small><em>Por favor no responder este correo.</em></small></p>
+      </div>`
+    } else if (variablesAceptar.tipocita == 'Examen de laboratorio') {
+        body = `<h4>Estimado/a <em> ${variablesAceptar.nombre} ${variablesAceptar.apellido}.</em></h4>
+    <div class="text-center mb-2">
+    Se le informa que su solicitud para el examen de ${variablesAceptar.examen} ha sido aceptada para el día ${variablesAceptar.fechaDia} de ${variablesAceptar.fechaMes} del año ${variablesAceptar.fechaYear} a las ${variablesAceptar.hora}.
+    </div>
+    <hr class="my-4">
+    <div class="text-center mb-2">
+      ¿Tiene alguna inquietud al respecto? Favor comunicarse a la línea
+      <a href="#" class="register-link">
+      (57) (5) 6868098
+      </a>
+      <p><small><em>Por favor no responder este correo.</em></small></p>
+      </div>`
+    }
+
+    gmailController.sendEmail(variablesAceptar.correo, 'IMPORTANTE: Solicitud de cita médica - ESE HOSPITAL SAN JACINTO', body)
+};
+
+
 let EmailRechazar = async (variablesRechazar) => {
 
     var body;
     console.log(variablesRechazar.correo);
     console.log(variablesRechazar.descripcion);
     if (!variablesRechazar.descripcion) {
-        body = `<h4>Estimado/a <em> ${variablesRechazar.nombre} ${variablesRechazar.apellido}.</em></h4>
+        if (variablesRechazar.tipocita == 'Cita médica') {
+            body = `<h4>Estimado/a <em> ${variablesRechazar.nombre} ${variablesRechazar.apellido}.</em></h4>
         <div class="text-center mb-2">
     Se le informa que su solicitud de cita médica para ${variablesRechazar.especialidad} con el/la doctor(a) ${variablesRechazar.doctor} para el día ${variablesRechazar.fechaDia} de ${variablesRechazar.fechaMes} del año ${variablesRechazar.fechaYear} a las ${variablesRechazar.hora} ha sido rechazada.
     </div>
@@ -177,13 +288,29 @@ let EmailRechazar = async (variablesRechazar) => {
       </a>
       <p><small><em>Por favor no responder este correo.</em></small></p>
       </div>`
+        } else if (variablesRechazar.tipocita == 'Examen de laboratorio') {
+            body = `<h4>Estimado/a <em> ${variablesRechazar.nombre} ${variablesRechazar.apellido}.</em></h4>
+        <div class="text-center mb-2">
+    Se le informa que su solicitud para realizarse el examen ${variablesRechazar.examen} para el día ${variablesRechazar.fechaDia} de ${variablesRechazar.fechaMes} del año ${variablesRechazar.fechaYear} a las ${variablesRechazar.hora} ha sido rechazada.
+    </div>
+    <hr class="my-4">
+    <div class="text-center mb-2">
+      ¿Tiene alguna inquietud al respecto? Favor comunicarse a la línea
+      <a href="#" class="register-link">
+      (57) (5) 6868098
+      </a>
+      <p><small><em>Por favor no responder este correo.</em></small></p>
+      </div>`
+        }
+
     } else {
-       body = `<h4>Estimado/a <em> ${variablesRechazar.nombre} ${variablesRechazar.apellido}.</em></h4>
+        if (variablesRechazar.tipocita == 'Cita médica') {
+            body = `<h4>Estimado/a <em> ${variablesRechazar.nombre} ${variablesRechazar.apellido}.</em></h4>
     <div class="text-center mb-2">
     Se le informa que su solicitud de cita médica para ${variablesRechazar.especialidad} con el/la doctor(a) ${variablesRechazar.doctor} para el día ${variablesRechazar.fechaDia} de ${variablesRechazar.fechaMes} del año ${variablesRechazar.fechaYear} a las ${variablesRechazar.hora} ha sido rechazada.
     </div>
     <div class="text-center mb-2">
-    
+
     <strong>
     ${variablesRechazar.descripcion}
     </strong>
@@ -196,13 +323,37 @@ let EmailRechazar = async (variablesRechazar) => {
       </a>    
       <p><small><em>Por favor no responder este correo.</em></small></p>  
       </div>`
+        } else if (variablesRechazar.tipocita == 'Examen de laboratorio') {
+            body = `<h4>Estimado/a <em> ${variablesRechazar.nombre} ${variablesRechazar.apellido}.</em></h4>
+        <div class="text-center mb-2">
+    Se le informa que su solicitud para realizarse el examen ${variablesRechazar.examen} para el día ${variablesRechazar.fechaDia} de ${variablesRechazar.fechaMes} del año ${variablesRechazar.fechaYear} a las ${variablesRechazar.hora} ha sido rechazada.
+    </div>
+    <div class="text-center mb-2">    
+        <strong>
+        ${variablesRechazar.descripcion}
+        </strong>
+        </div>
+        <hr class="my-4">
+        <div class="text-center mb-2">
+          ¿Tiene alguna inquietud al respecto? Favor comunicarse a la línea
+          <a href="#" class="register-link">
+          (57) (5) 6868098
+          </a>    
+          <p><small><em>Por favor no responder este correo.</em></small></p>  
+          </div>`
+
+        }
+
     }
+
     gmailController.sendEmail(variablesRechazar.correo, 'IMPORTANTE: Solicitud de cita médica - ESE HOSPITAL SAN JACINTO', body)
 };
 
 module.exports = {
     crearAgendaMed: crearAgendaMed,
     crearAgendaOdont: crearAgendaOdont,
+    crearAgendaLab: crearAgendaLab,
     addMinutes: addMinutes,
+    EmailAceptar: EmailAceptar,
     EmailRechazar: EmailRechazar
 }
