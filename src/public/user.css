@@ -13,3 +13,18 @@
 #fecha[readonly]{
     background-color: transparent !important;     
 }
+
+#header {
+    background-color: #f0fcf0;  
+    justify-content: center;     
+}
+
+#footer {
+    background-color: #f0fcf0;
+    justify-content: center;
+}
+
+#footerDelete{
+    justify-content: center;
+}
+

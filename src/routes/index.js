@@ -30,25 +30,36 @@ let Routes = (app) => {
     router.get("/usuario/usuario", userController.getUser);
     router.get("/admin/admin", adminController.getAdmin);
    
-    //RUTAS PARA LA PÁGINA DE USUARIO    
+    //RUTAS PARA LA PÁGINA DE USUARIO
     router.post('/Especialidad', userController.OpcionesEspe);
     router.post('/Doctor', userController.OpcionesDr);
+    router.post('/ListaExamenesLab', userController.OpcionesLab);
     router.post('/listaEPS', userController.OpcionesEPS);
-    router.post('/OpcionesHorario',userController.OpcionesHorario);
-    //router.post('/datosHorario',userController.AgendaHorario);
+    router.post('/OpcionesHorario',userController.OpcionesHorario); 
+    router.post('/OpcionesHorarioLab',userController.OpcionesHorarioLab);    
     router.post('/EnviarDatos',userController.SolicitarCita);
-    router.post('/InfoTabla', userController.TablaHorario)
-    //router.post('/InfoTabla',userController.LlenarTablaHorario);
+    router.post('/InfoTabla', userController.TablaHorario);
+    router.post('/InfoTablaLab', userController.TablaHorarioLab);
+
+    router.post('/DatosUsuarioA',userController.DatosUserA);
+    router.post('/ActualizarSolicitud', userController.Actualizar);
+
+    router.get('/ConsultarUser',userController.SolicitudUser);
+    router.post('/DatosUsuario',userController.DatosUser);
+    router.post('/EliminarSolicitud',userController.Eliminar);
 
     //RUTAS PARA LA PÁGINA DE ADMINISTRADOR  
-    router.get('/Solicitudes',adminController.Solicitudes);
+    router.get('/Solicitudes',adminController.Solicitudes);    
     router.post('/ListaMedico',adminController.medicina);
     router.post('/ListaOdontologo',adminController.odontologia);
+    router.post('/ListaLaboratorios',adminController.laboratorio);
     router.post('/createAgendaMed',adminController.AgendaMed);
     router.post('/createAgendaOdont',adminController.AgendaOdont); 
+    router.post('/createAgendaLab',adminController.AgendaLab); 
     
     router.post('/SolicitudIndividual',adminController.SolicitudesIndivial);
     router.post('/RechazarSolicitud',adminController.Rechazar);
+    router.post('/AceptarSolicitud',adminController.Aceptar);
 
     return app.use("/", router);
 };

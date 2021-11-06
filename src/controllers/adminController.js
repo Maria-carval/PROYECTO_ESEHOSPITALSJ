@@ -36,31 +36,27 @@ let odontologia = (req, res) => {
     });
 };
 
+let laboratorio = (req, res) => {
+    connection.query('SELECT Examen FROM laboratorios ORDER BY Examen ASC', (err, data) => {
+        if (err) {
+            res.json(err);
+        }
+        var result = data
+        res.end(JSON.stringify(result));       
+    });
+};
+
 let AgendaMed = async (req, res) => {
 
     var especialidad = "Medicina general";    
     var Dia = req.body.Dia;
-    var IdDia;
-
-    if (Dia == "Lunes") {
-        IdDia = "1";
-    } else if (Dia == "Martes") {
-        IdDia = "2"
-    } else if (Dia == "Miércoles") {
-        IdDia = "3"
-    } else if (Dia == "Jueves") {
-        IdDia = "4"
-    } else if (Dia == "Viernes") {
-        IdDia = "5"
-    }
-
+   
     let horarioMed = {   
         especialidad: especialidad,
         Medico: req.body.Medico,
         Dia: req.body.Dia,
         horaInicio: req.body.H1,
-        horaFin: req.body.H2,  
-        IdDia: IdDia
+        horaFin: req.body.H2 
     };
     console.log(horarioMed)
     await adminService.crearAgendaMed(horarioMed);
@@ -69,47 +65,45 @@ let AgendaMed = async (req, res) => {
 
 let AgendaOdont = async (req, res) => {
 
-    var especialidad = "Odontología"; 
-    var Dia = req.body.Dia1;
-    var IdDia;
-
-    if (Dia == "Lunes") {
-        IdDia = "1";
-    } else if (Dia == "Martes") {
-        IdDia = "2"
-    } else if (Dia == "Miércoles") {
-        IdDia = "3"
-    } else if (Dia == "Jueves") {
-        IdDia = "4"
-    } else if (Dia == "Viernes") {
-        IdDia = "5"
-    }
+    var especialidad = "Odontología";   
     
     let horarioOdont = {   
         especialidad: especialidad,
         Medico: req.body.Odontologo,
         Dia: req.body.Dia1,
         horaInicio: req.body.H3,
-        horaFin: req.body.H4,  
-        IdDia: IdDia
+        horaFin: req.body.H4      
     };
     console.log(horarioOdont)
     await adminService.crearAgendaOdont(horarioOdont);
     res.redirect("/admin/admin");
 }
 
+let AgendaLab = async (req, res) => {
+     
+    let horarioLab = {       
+        Examen: req.body.Laboratorio,
+        Dia: req.body.Dia2,
+        horaInicio: req.body.H5,
+        horaFin: req.body.H6  
+    };
+    console.log(horarioLab)
+    await adminService.crearAgendaLab(horarioLab);
+    res.redirect("/admin/admin");
+}
+
 let Solicitudes = (req, res) => {
     if (req.session.admin) {
-        connection.query(`SELECT idcitas, Nombres, Apellidos, Correo, Celular, Tipo_Documento, Numero_Documento,
-        Afiliacion, Regimen, Entidad, Especialidad, Doctor, DATE_FORMAT(Fecha, "%Y-%m-%d") Fecha, Hora, 
-        Orden, Descripcion FROM citas WHERE Estado_cita = "Pendiente"`, (err, data) => {
+        connection.query(`SELECT idcitas, Nombres, Apellidos, Correo, Celular, Tipo_Documento, 
+        Numero_Documento, Afiliacion, Regimen, Entidad, Solicitud, Especialidad, Doctor, Examen,
+        DATE_FORMAT(Fecha, "%Y-%m-%d") Fecha, Hora, DATE_FORMAT(Hora, "%I:%i:%p") Hora12, Orden, Descripcion FROM citas
+        WHERE Estado_cita = "Pendiente"`, (err, data) => {
             if (err) {
                 res.json(err);
             }
             console.log(data);
             res.render('./admin/adminSolicitud.ejs', {
-                data: data,
-                //user: req.session.context               
+                data: data                            
             });
         });
     } else {
@@ -124,24 +118,56 @@ let SolicitudesIndivial = (req, res) => {
     var id = req.body.idC;
     if (req.session.admin) {
         connection.query(`SELECT idcitas, Nombres, Apellidos, Correo, Celular, Tipo_Documento, 
-        Numero_Documento, Afiliacion, Regimen, Entidad, Especialidad, Doctor, 
+        Numero_Documento, Afiliacion, Regimen, Entidad, Solicitud, Especialidad, Doctor, Examen,
         DATE_FORMAT(Fecha, "%Y-%m-%d") Fecha, MONTHNAME(Fecha) Mes, DAY(Fecha) Dia, YEAR(Fecha) Año, 
-        Hora, DATE_FORMAT(Hora, "%I:%i : %p") Hora12, Orden, Descripcion FROM citas WHERE idcitas = ?`, [id], (err, datos) => {
+        Hora, DATE_FORMAT(Hora, "%I:%i:%p") Hora12, Orden, Descripcion FROM citas WHERE idcitas = ?`, [id], (err, datos) => {
             if (err) {
                 res.json(err);
             }
             console.log(datos);
             var datos = datos
-            res.end(JSON.stringify(datos));  
-            // res.render('./admin/adminSolicitud.ejs', {
-            //     datos: data[0]
-            // });
+            res.end(JSON.stringify(datos));        
         });
     } else {
         return res.render("login.ejs", {
             errors: req.session.context
         });
     }
+};
+
+let Aceptar = async (req, res) => {
+
+    const estado = 'Aceptada';
+    const datos = req.body;
+    const id = req.body.id;
+    console.log(datos)
+
+    let variablesAceptar = {
+        correo: req.body.correo,
+        nombre: req.body.nombre,
+        apellido: req.body.apellido,
+        tipocita: req.body.tipocita,
+        especialidad: req.body.especialidad,
+        doctor: req.body.doctor,
+        examen: req.body.examen,
+        fechaMes: req.body.fechaMes,
+        fechaDia: req.body.fechaDia,
+        fechaYear: req.body.fechaYear,
+        hora: req.body.hora            
+    };
+    console.log(variablesAceptar);
+
+    await adminService.EmailAceptar(variablesAceptar);
+
+    console.log("nojodaaa")
+    connection.query(`UPDATE citas SET Estado_cita = "${estado}" WHERE idcitas = "${id}"`, (err, datos) => {
+        if (err) {
+            res.json(err);
+        }
+        console.log(datos);
+        res.redirect('/Solicitudes');
+    });
+
 };
 
 let Rechazar = async (req, res) => {
@@ -155,8 +181,10 @@ let Rechazar = async (req, res) => {
         correo: req.body.correo,
         nombre: req.body.nombre,
         apellido: req.body.apellido,
+        tipocita: req.body.tipocita,
         especialidad: req.body.especialidad,
         doctor: req.body.doctor,
+        examen: req.body.examen,
         fechaMes: req.body.fechaMes,
         fechaDia: req.body.fechaDia,
         fechaYear: req.body.fechaYear,
@@ -167,7 +195,7 @@ let Rechazar = async (req, res) => {
 
     await adminService.EmailRechazar(variablesRechazar);
 
-    console.log("nojodaaa")
+    console.log("dios")
     connection.query('DELETE FROM citas WHERE idcitas = ?', [id], (err, datos) => {
         if (err) {
             res.json(err);
@@ -182,9 +210,12 @@ module.exports = {
     getAdmin: getAdmin,
     medicina: medicina,
     odontologia: odontologia,
+    laboratorio: laboratorio,
     AgendaMed: AgendaMed,    
     AgendaOdont: AgendaOdont,
+    AgendaLab: AgendaLab,
     Solicitudes: Solicitudes,
     SolicitudesIndivial:SolicitudesIndivial,
+    Aceptar: Aceptar,
     Rechazar: Rechazar
 }

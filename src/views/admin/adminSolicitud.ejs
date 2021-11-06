@@ -52,7 +52,7 @@
                 </button>
                 <div id="navbarMenu" class="collapse navbar-collapse">
                     <ul class="navbar-nav ms-3">
-                        <li class="nav-item"><a class="nav-link" href="#">Agenda</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/admin/admin">Agenda</a></li>
                         <li class="nav-item"><a class="nav-link" href="/Solicitudes">Solicitudes</a></li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button"
@@ -72,17 +72,19 @@
             </div>
             <div class="modal-body">
                 <div class="col-12">
-                    <table id="conTable" class="table table-striped table-bordered nowrap" style="width: 100%;">
+                    <table id="conTable" class="table table-light table-striped table-bordered nowrap" style="width: 100%;">
                         <thead>
                             <tr>
+                                <th>Tipo de solicitud</th>
                                 <th>Nombres</th>
                                 <th>Apellidos</th>
                                 <th>Correo electrónico</th>
                                 <th>Celular</th>
                                 <th>Tipo de identificación</th>
-                                <th>N° de identificación</th>
+                                <th>N° de identificación</th>                                
                                 <th>Especialidad</th>
                                 <th>Doctor</th>
+                                <th>Exámenes</th>
                                 <th>Fecha</th>
                                 <th>Hora</th>
                                 <th>Afiliación</th>
@@ -98,6 +100,9 @@
                                 <% if (data) { %>
                                     <!-- Es el nombre que se le dió a los datos obtenidos en el adminController.Solicitud -->
                                     <% for(var i=0; i < data.length; i++) { %>
+                                        <td>
+                                            <%= data[i].Solicitud %>
+                                        </td>
                                         <td>
                                             <%= data[i].Nombres %>
                                         </td>
@@ -123,10 +128,13 @@
                                             <%= data[i].Doctor %>
                                         </td>
                                         <td>
+                                            <%= data[i].Examen %>
+                                        </td>
+                                        <td>
                                             <%= data[i].Fecha %>
                                         </td>
                                         <td>
-                                            <%= data[i].Hora %>
+                                            <%= data[i].Hora12 %>
                                         </td>
                                         <td>
                                             <%= data[i].Afiliacion %>
@@ -144,7 +152,8 @@
                                             <%= data[i].Descripcion %>
                                         </td>
                                         <td>
-                                            <a href="#" class="btn btn-outline-success"><i class="fas fa-check"></i></a>
+                                            <a onclick="Aceptar('<%= data[i].idcitas %>')"
+                                                class="btn btn-outline-success"><i class="fas fa-check"></i></a>
 
                                             <button type="button" onclick="valor('<%= data[i].idcitas %>')"
                                                 class="btn btn-outline-danger">
@@ -152,7 +161,6 @@
                                             </button>
 
                                         </td>
-                                        <!-- href="/consultarUsuario/<%= data[i].idcitas %>"                           -->
                             </tr>
                             <% } %>
                                 <% } %>
@@ -162,13 +170,16 @@
             </div>
         </div>
 
-
-        <div class="modal" tabindex="-1" id="editarUsuarioModal">
+        <div class="modal" tabindex="-1" id="AceptarModal">
             <div class="modal-dialog">
-                <div class="modal-content">                   
-                    <div class="modal-body">
-                        <small class="text-muted">A continuación podrá explicar al usuario las razones por las que se le rechaza la solicitud de cita médica (orden vencida, inválida, etc).</small>                        
-                        <hr class="my-4">
+                <div class="modal-content">
+                    <div class="modal-body">      
+                        <div class="view overlay">
+                            <img class="card-img-top" src="/images/check.png" alt="">
+                            <a href="#">
+                                <div class="mask rgba-white-slight"></div>
+                            </a>
+                        </div>                  
                         <div style="display: none;">
                             <div class="form-input">
                                 <label for="Id" class="form-label">Id del paciente</label>
@@ -188,6 +199,11 @@
                                     autocomplete="off">
                             </div>
                             <div class="form-input">
+                                <label for="TipoCita" class="form-label">Tipo de solicitud</label>
+                                <input type="text" class="form-control" id="TipoCita" name="TipoCita"
+                                    autocomplete="off">
+                            </div>
+                            <div class="form-input">
                                 <label for="opciones" class="form-label">Especialidad</label>
                                 <input type="text" class="form-control" id="opciones" name="opciones"
                                     autocomplete="off">
@@ -195,6 +211,11 @@
                             <div class="form-input">
                                 <label for="Doctores" class="form-label">Doctor</label>
                                 <input type="text" class="form-control" id="Doctores" name="Doctores"
+                                    autocomplete="off">
+                            </div>
+                            <div class="form-input">
+                                <label for="Lab" class="form-label">Examen</label>
+                                <input type="text" class="form-control" id="Lab" name="Lab"
                                     autocomplete="off">
                             </div>
                             <div class="form-input">
@@ -215,12 +236,89 @@
                             </div>
                         </div>
                         <div class="form-input" style="margin-top: 20px;">
-                            <label for="descripcion" class="form-label">Razones por las que se rechaza la solicitud:</label>
+                            <h1 class="display-6" style="text-align: center;">¿Seguro/a que desea aceptar esta solicitud?</h1>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary"
+                            data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" id="btnAceptar" class="btn btn-outline-success">Confirmar y Enviar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal" tabindex="-1" id="RechazarModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <small class="text-muted">A continuación podrá explicar al usuario las razones por las que se le
+                            rechaza la solicitud de cita médica (orden vencida, inválida, etc).</small>
+                        <hr class="my-4">
+                        <div style="display: none;">
+                            <div class="form-input">
+                                <label for="Id" class="form-label">Id del paciente</label>
+                                <input type="text" class="form-control" id="Id" name="Id" autocomplete="off">
+                            </div>
+                            <div class="form-input">
+                                <label for="email" class="form-label">Correo</label>
+                                <input type="text" class="form-control" id="email" name="email" autocomplete="off">
+                            </div>
+                            <div class="form-input">
+                                <label for="Name" class="form-label">Nombres del paciente</label>
+                                <input type="text" class="form-control" id="Name" name="Name" autocomplete="off">
+                            </div>
+                            <div class="form-input">
+                                <label for="Lastname" class="form-label">Apellidos del paciente</label>
+                                <input type="text" class="form-control" id="Lastname" name="Lastname"
+                                    autocomplete="off">
+                            </div>
+                            <div class="form-input">
+                                <label for="TipoCita" class="form-label">Tipo de solicitud</label>
+                                <input type="text" class="form-control" id="TipoCita" name="TipoCita"
+                                    autocomplete="off">
+                            </div>
+                            <div class="form-input">
+                                <label for="opciones" class="form-label">Especialidad</label>
+                                <input type="text" class="form-control" id="opciones" name="opciones"
+                                    autocomplete="off">
+                            </div>
+                            <div class="form-input">
+                                <label for="Doctores" class="form-label">Doctor</label>
+                                <input type="text" class="form-control" id="Doctores" name="Doctores"
+                                    autocomplete="off">
+                            </div>
+                            <div class="form-input">
+                                <label for="Lab" class="form-label">Examen</label>
+                                <input type="text" class="form-control" id="Lab" name="Lab"
+                                    autocomplete="off">
+                            </div>
+                            <div class="form-input">
+                                <label for="mes" class="form-label">Mes</label>
+                                <input type="text" class="form-control" id="mes" name="mes" autocomplete="off">
+                            </div>
+                            <div class="form-input">
+                                <label for="dia" class="form-label">Dia</label>
+                                <input type="text" class="form-control" id="dia" name="dia" autocomplete="off">
+                            </div>
+                            <div class="form-input">
+                                <label for="año" class="form-label">Año</label>
+                                <input type="text" class="form-control" id="año" name="año" autocomplete="off">
+                            </div>
+                            <div class="form-input">
+                                <label for="hora" class="form-label">Hora</label>
+                                <input type="text" class="form-control" id="hora" name="hora" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="form-input" style="margin-top: 20px;">
+                            <label for="descripcion" class="form-label">Razones por las que se rechaza la
+                                solicitud:</label>
                             <textarea class="form-control" id="descripcion" name="descripcion" rows="10"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-outline-secondary"
+                            data-bs-dismiss="modal">Cancelar</button>
                         <button type="button" id="btnRechazar" class="btn btn-outline-danger">Rechazar y Enviar</button>
                     </div>
                 </div>
@@ -270,8 +368,7 @@
         new $.fn.dataTable.FixedHeader(table);
     });
 
-
-    function valor(id) {
+    function Aceptar(id) {
         $.ajax({
             type: 'post',
             cache: false,
@@ -281,12 +378,15 @@
             success: function (datos) {
                 console.log('NOJODA');
                 console.log(datos)
+
                 document.getElementById('Id').value = datos[0].idcitas;
                 document.getElementById('email').value = datos[0].Correo;
                 document.getElementById('Name').value = datos[0].Nombres;
                 document.getElementById('Lastname').value = datos[0].Apellidos;
+                document.getElementById('TipoCita').value = datos[0].Solicitud;
                 document.getElementById('opciones').value = datos[0].Especialidad;
                 document.getElementById('Doctores').value = datos[0].Doctor;
+                document.getElementById('Lab').value = datos[0].Examen;
                 var Mes;
                 if (datos[0].Mes == "January") {
                     Mes = "Enero"
@@ -317,61 +417,168 @@
                 document.getElementById('dia').value = datos[0].Dia;
                 document.getElementById('año').value = datos[0].Año;
                 document.getElementById('hora').value = datos[0].Hora12;
-                $("#editarUsuarioModal").modal("toggle");
+                $("#AceptarModal").modal("toggle");
 
             }
         });
-        
+
+    }
+
+    function valor(id) {
+        $.ajax({
+            type: 'post',
+            cache: false,
+            dataType: "json",
+            url: '/SolicitudIndividual',
+            data: { idC: id }, //Se pasa el $id
+            success: function (datos) {
+                console.log('NOJODA');
+                console.log(datos)
+                document.getElementById('Id').value = datos[0].idcitas;
+                document.getElementById('email').value = datos[0].Correo;
+                document.getElementById('Name').value = datos[0].Nombres;
+                document.getElementById('Lastname').value = datos[0].Apellidos;
+                document.getElementById('TipoCita').value = datos[0].Solicitud;
+                document.getElementById('opciones').value = datos[0].Especialidad;
+                document.getElementById('Doctores').value = datos[0].Doctor;
+                document.getElementById('Lab').value = datos[0].Examen;
+                var Mes;
+                if (datos[0].Mes == "January") {
+                    Mes = "Enero"
+                } else if (datos[0].Mes == "February") {
+                    Mes = "Febrero"
+                } else if (datos[0].Mes == "March") {
+                    Mes = "Marzo"
+                } else if (datos[0].Mes == "April") {
+                    Mes = "Abril"
+                } else if (datos[0].Mes == "May") {
+                    Mes = "Mayo"
+                } else if (datos[0].Mes == "June") {
+                    Mes = "Junio"
+                } else if (datos[0].Mes == "July") {
+                    Mes = "Julio"
+                } else if (datos[0].Mes == "August") {
+                    Mes = "Agosto"
+                } else if (datos[0].Mes == "September") {
+                    Mes = "Septiembre"
+                } else if (datos[0].Mes == "October") {
+                    Mes = "Octubre"
+                } else if (datos[0].Mes == "November") {
+                    Mes = "Noviembre"
+                } else if (datos[0].Mes == "December") {
+                    Mes = "Diciembre"
+                }
+                document.getElementById('mes').value = Mes;
+                document.getElementById('dia').value = datos[0].Dia;
+                document.getElementById('año').value = datos[0].Año;
+                document.getElementById('hora').value = datos[0].Hora12;
+                $("#RechazarModal").modal("toggle");
+
+            }
+        });
+
+    }
+
+    $('#btnAceptar').click(function () {
+        let data = Datos();
+        console.log(data)
+        if (!data) {
+            console.log('error')
+        } else {
+            confirmarRegistro(data);
+        }
+    })
+    function Datos() {
+        let data = {
+            id: $('#Id').val(),
+            correo: $('#email').val(),
+            nombre: $('#Name').val(),
+            apellido: $('#Lastname').val(),
+            tipocita: $('#TipoCita').val(),
+            especialidad: $('#opciones').val(),
+            doctor: $('#Doctores').val(),
+            examen: $('#Lab').val(),
+            fechaMes: $('#mes').val(),
+            fechaDia: $('#dia').val(),
+            fechaYear: $('#año').val(),
+            hora: $('#hora').val()            
+        };
+        return data
+    }
+    function confirmarRegistro(data) {
+        $.ajax({
+            type: 'POST',
+            url: '/AceptarSolicitud',
+            data: data,
+            success: function (msg) {
+                Swal.fire(
+                    '¡Buen trabajo!',
+                    '¡Se han enviado correctamente la información!',
+                    'success'
+                ).then(function () {
+                    window.location = "/Solicitudes";
+                });
+            },
+            error: function (error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Hubo un error'
+                })
+            }
+        });
     }
 
     $('#btnRechazar').click(function () {
-            let data = Datos();
-            console.log(data)
-            if (!data) {
-                console.log('error')
-            } else {
-                eliminarRegistro(data);
+        let data = Datos();
+        console.log(data)
+        if (!data) {
+            console.log('error')
+        } else {
+            eliminarRegistro(data);
+        }
+    })
+    function Datos() {
+        let data = {
+            id: $('#Id').val(),
+            correo: $('#email').val(),
+            nombre: $('#Name').val(),
+            apellido: $('#Lastname').val(),
+            tipocita: $('#TipoCita').val(),
+            especialidad: $('#opciones').val(),
+            doctor: $('#Doctores').val(),
+            examen: $('#Lab').val(),
+            fechaMes: $('#mes').val(),
+            fechaDia: $('#dia').val(),
+            fechaYear: $('#año').val(),
+            hora: $('#hora').val(),
+            descripcion: $('#descripcion').val()
+        };
+        return data
+    }
+    function eliminarRegistro(data) {
+        $.ajax({
+            type: 'POST',
+            url: '/RechazarSolicitud',
+            data: data,
+            success: function (msg) {
+                Swal.fire(
+                    '¡Buen trabajo!',
+                    '¡Se han enviado correctamente la información!',
+                    'success'
+                ).then(function () {
+                    window.location = "/Solicitudes";
+                });
+            },
+            error: function (error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Hubo un error'
+                })
             }
-        })
-        function Datos() {
-            let data = {
-                id: $('#Id').val(),
-                correo: $('#email').val(),
-                nombre: $('#Name').val(),
-                apellido: $('#Lastname').val(),
-                especialidad: $('#opciones').val(),
-                doctor: $('#Doctores').val(),
-                fechaMes: $('#mes').val(),
-                fechaDia: $('#dia').val(),
-                fechaYear: $('#año').val(),
-                hora: $('#hora').val(),
-                descripcion: $('#descripcion').val()
-            };
-            return data
-        }
-        function eliminarRegistro(data) {
-            $.ajax({
-                type: 'POST',
-                url: '/RechazarSolicitud',
-                data: data,
-                success: function (msg) {
-                    Swal.fire(
-                        '¡Buen trabajo!',
-                        '¡Se han enviado correctamente la información!',
-                        'success'
-                    ).then(function () {
-                        window.location = "/Solicitudes";
-                    });
-                },
-                error: function (error) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'Hubo un error'
-                    })
-                }
-            });
-        }
+        });
+    }
 
 
 </script>

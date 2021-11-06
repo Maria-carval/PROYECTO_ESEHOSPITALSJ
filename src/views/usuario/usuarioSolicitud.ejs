@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- ===== FONT AWESOME ===== -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/solid.min.css"
+        integrity="sha512-WTx8wN/JUnDrE4DodmdFBCsy3fTGbjs8aYW9VDbW8Irldl56eMj8qUvI3qoZZs9o3o8qFxfGcyQocUY0LYZqzQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+        integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+
+
+    <!-- ===== BOOTSTRAP ===== -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-uWxY/CJNBR+1zjPWmfnSnVxwRheevXITnMqoEIeG1LJrdI0GlVs/9cVSyPYXdcSF" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.all.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
+        </script>
+   
+    <!-- ===== SWEETALERT2 ===== -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.all.min.js"></script>
+
+    <!-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script> -->
+    
+   
+    <!-- bootstrap5 dataTables css cdn -->
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap5.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.0.1/css/buttons.bootstrap5.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.2.0/css/fixedHeader.bootstrap5.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap5.min.css" />
+
+     <!-- ===== DATEPICKER ===== -->
+     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <!-- ===== CSS ===== -->
+    <link rel="stylesheet" href="/user.css">
+
+    <title>APPOITMENTS E.S.E HOSPITAL S.J</title>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <nav class="navbar navbar-expand-md navbar-light bg-success bg-opacity-10 border-3 border-bottom border-success">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">
+                    <img src="/images/logo.png" alt="" width="40" height="30" class="d-inline-block align-text-top">
+                    Hospital
+                </a>
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarMenu">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div id="navbarMenu" class="collapse navbar-collapse">
+                    <ul class="navbar-nav ms-3">
+                        <li class="nav-item"><a class="nav-link" href="/usuario/usuario">Solicitar cita</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/ConsultarUser">Consultar citas</a></li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button"
+                                data-bs-toggle="dropdown">Cuenta</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="/Inicio">Cerrar sesión</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="card">
+            <div class="card-header">
+                A continación podrá revisar las citas médicas solicitadas hasta la fecha.
+            </div>
+            <div class="modal-body">
+                <div class="col-12">
+                    <table id="conTable" class="table table-light table-striped table-bordered nowrap"
+                        style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>Estado</th>
+                                <th>Nombres</th>
+                                <th>Apellidos</th>
+                                <th>Correo electrónico</th>
+                                <th>Celular</th>
+                                <th>Tipo de identificación</th>
+                                <th>N° de identificación</th>
+                                <th>Solicitud</th>
+                                <th>Especialidad</th>
+                                <th>Doctor</th>
+                                <th>Exámenes</th>
+                                <th>Fecha</th>
+                                <th>Hora</th>
+                                <th>Afiliación</th>
+                                <th>Entidad</th>
+                                <th>Régimen</th>
+                                <th>Autorización</th>
+                                <th>Anotaciones</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <% if (data) { %>
+                                    <!-- Es el nombre que se le dió a los datos obtenidos en el adminController.Solicitud -->
+                                    <% for(var i=0; i < data.length; i++) { %>
+                                        <td>
+                                            <% switch (data[i].Estado_cita) { case 'Pendiente' : %>
+                                                <span class="badge bg-warning text-dark">
+                                                    <%= data[i].Estado_cita %>
+                                                </span>
+                                                <% break; case 'Aceptada' : %>
+                                                    <span class="badge bg-success">
+                                                        <%= data[i].Estado_cita %>
+                                                    </span>
+                                                    <% break; case 'Rechazada' : %>
+                                                        <span class="badge badge-danger">
+                                                            <%= data[i].Estado_cita %>
+                                                        </span>
+                                                        <% break; } %>
+                                        </td>
+                                        <td>
+                                            <%= data[i].Nombres %>
+                                        </td>
+                                        <td>
+                                            <%= data[i].Apellidos %>
+                                        </td>
+                                        <td>
+                                            <%= data[i].Correo %>
+                                        </td>
+                                        <td>
+                                            <%= data[i].Celular %>
+                                        </td>
+                                        <td>
+                                            <%= data[i].Tipo_Documento %>
+                                        </td>
+                                        <td>
+                                            <%= data[i].Numero_Documento %>
+                                        </td>
+                                        <td>
+                                            <%= data[i].Solicitud %>
+                                        </td>
+                                        <td>
+                                            <%= data[i].Especialidad %>
+                                        </td>
+                                        <td>
+                                            <%= data[i].Doctor %>
+                                        </td>
+                                        <td>
+                                            <%= data[i].Examen %>
+                                        </td>
+                                        <td>
+                                            <%= data[i].Fecha %>
+                                        </td>
+                                        <td>
+                                            <%= data[i].Hora12 %>
+                                        </td>
+                                        <td>
+                                            <%= data[i].Afiliacion %>
+                                        </td>
+                                        <td>
+                                            <%= data[i].Entidad %>
+                                        </td>
+                                        <td>
+                                            <%= data[i].Regimen %>
+                                        </td>
+                                        <td>
+                                            <%= data[i].Orden %>
+                                        </td>
+                                        <td>
+                                            <%= data[i].Descripcion %>
+                                        </td>
+                                        <td>
+                                            <% if (data[i].Estado_cita !=='Aceptada' ) { %>
+
+                                                <a onclick="Actualizar('<%= data[i].idcitas %>')"
+                                                    class="btn btn-info"><i class="fas fa-edit"></i></a>
+
+                                                <% } %>
+
+                                                    <a onclick="Eliminar('<%= data[i].idcitas %>')"
+                                                        class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
+
+                                        </td>
+                            </tr>
+                            <% } %>
+                                <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal" tabindex="-1" id="ActualizarModal">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header" id="header">
+                        <h5 class="modal-title" style="justify-content: center;">Actualización de datos personales</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <section class="section">
+                            <div class="row g-0">
+                                <div class="col-md-6">
+                                    <img src="/images/personalinfo.png" class="img-fluid rounded-start" alt="">
+                                </div>
+                                <div class="col-md-6">
+                                    <div style="display: none;">
+                                        <div class="form-input">
+                                            <label for="Id" class="form-label">Id del paciente</label>
+                                            <input type="text" class="form-control" id="Id" name="Id"
+                                                autocomplete="off">
+                                        </div>
+                                    </div>
+                                    <div class="form-input">
+                                        <label for="Name" class="form-label">Nombres del paciente <label
+                                                class="redText">*</label></label>
+                                        <input type="text" class="form-control" id="Name" name="Name"
+                                            placeholder="Ingresa los nombres" autocomplete="off">
+                                    </div>
+                                    <div class="form-input">
+                                        <label for="Lastname" class="form-label">Apellidos del
+                                            paciente <label class="redText">*</label></label>
+                                        <input type="text" class="form-control" id="Lastname" name="Lastname"
+                                            placeholder="Ingresa los apellidos">
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="section">
+                            <div class="row g-0">
+                                <div class="col-md-6">
+                                    <img src="/images/email.png" class="img-fluid rounded-start" alt="">
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-input">
+                                        <label for="email" class="form-label">Correo
+                                            electrónico <label class="redText">*</label></label>
+                                        <input type="email" class="form-control" id="email" name="email"
+                                            placeholder="Ingresa el correo electrónico">
+                                    </div>
+                                    <div class="form-input">
+                                        <label for="number" class="form-label">Número de celular<label
+                                                class="redText">*</label></label>
+                                        <input type="number" class="form-control" id="number" name="number"
+                                            placeholder="Sin puntos ni comas ni guiones" min="0" step="1"
+                                            oninput="validity.valid||(value='');">
+                                    </div>
+                                    <div class="form-input" id="askdiv">
+                                        <label for="ask" class="form-label">¿El tipo de documento es el mismo?<label
+                                                class="redText">*</label></label>
+                                        <select class="form-select" aria-label="Default select example"
+                                            style="margin-right: 20px;" id="ask" name="ask">
+                                            <option value="0">Seleccione</option>
+                                            <option value="1">Si
+                                            </option>
+                                            <option value="2">No
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>                                
+                            </div>
+                        </section>
+                        <section class="section">
+                            <div class="row g-0">
+                                <div class="col-md-6">
+                                    <img src="/images/order.png" class="img-fluid rounded-start" alt="">
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-input" id="doc" style="display: none;">
+                                        <label for="Tipo" class="form-label">Tipo de
+                                            documento<label class="redText">*</label></label>
+                                        <select class="form-select" aria-label="Default select example"
+                                            style="margin-right: 20px;" id="Tipo" name="Tipo">
+                                            <option value="0">Seleccionar tipo de documento</option>
+                                            <option value="Cédula de ciudadanía">Cédula de ciudadanía
+                                            </option>
+                                            <option value="Cédula de extranjería">Cédula de extranjería
+                                            </option>
+                                            <option value="NIT">NIT</option>
+                                            <option value="Tarjeta de identitidad">Tarjeta de
+                                                identitidad</option>
+                                            <option value="Pasaporte">Pasaporte</option>
+                                            <option value="Registro civil">Registro civil</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-input">
+                                        <label for="Cedula" class="form-label">N° de identificación del
+                                            paciente <label class="redText">*</label></label>
+                                        <input type="number" class="form-control" id="Cedula" name="Cedula"
+                                            placeholder="Sin puntos ni comas ni guiones" min="0" step="1"
+                                            oninput="validity.valid||(value='');">
+                                    </div>
+                                    <div class="form-input">
+                                        <label for="orden" class="form-label">Digite número
+                                            de la orden<label class="redText">*</label></label>
+                                        <input type="number" class="form-control" id="orden" name="orden"
+                                            placeholder="Sin puntos ni comas ni guiones" min="0" step="1"
+                                            oninput="validity.valid||(value='');">
+                                    </div>
+                                    <!-- <div class="form-input" style="margin-top: 20px;">
+                                        <label for="fecha" class="form-label">Fecha de la
+                                            cita
+                                            <label class="redText">*</label></label>
+                                        <input class="form-control" id="fecha" name="fecha"
+                                            placeholder="Seleccionar fecha" autocomplete="off"
+                                            onkeypress="return false" readonly>
+                                    </div> -->
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                    <div class="modal-footer" id="footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" id="btnActualizar" class="btn btn-warning">Actualizar datos</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal" tabindex="-1" id="EliminarModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="view overlay">
+                                <img class="card-img-top" src="/images/delete.png" alt="">
+                                <a href="#">
+                                    <div class="mask rgba-white-slight"></div>
+                                </a>
+                            </div>
+                            <div style="display: none;">
+                                <div class="form-input">
+                                    <label for="Id" class="form-label">Id del paciente</label>
+                                    <input type="text" class="form-control" id="Id" name="Id" autocomplete="off">
+                                </div>
+                                <div class="form-input">
+                                    <label for="email" class="form-label">Correo</label>
+                                    <input type="text" class="form-control" id="email" name="email" autocomplete="off">
+                                </div>
+                                <div class="form-input">
+                                    <label for="Name" class="form-label">Nombres del paciente</label>
+                                    <input type="text" class="form-control" id="Name" name="Name" autocomplete="off">
+                                </div>
+                                <div class="form-input">
+                                    <label for="Lastname" class="form-label">Apellidos del paciente</label>
+                                    <input type="text" class="form-control" id="Lastname" name="Lastname"
+                                        autocomplete="off">
+                                </div>
+                                <div class="form-input">
+                                    <label for="TipoCita" class="form-label">Tipo de solicitud</label>
+                                    <input type="text" class="form-control" id="TipoCita" name="TipoCita"
+                                        autocomplete="off">
+                                </div>
+                                <div class="form-input">
+                                    <label for="opciones" class="form-label">Especialidad</label>
+                                    <input type="text" class="form-control" id="opciones" name="opciones"
+                                        autocomplete="off">
+                                </div>
+                                <div class="form-input">
+                                    <label for="Doctores" class="form-label">Doctor</label>
+                                    <input type="text" class="form-control" id="Doctores" name="Doctores"
+                                        autocomplete="off">
+                                </div>
+                                <div class="form-input">
+                                    <label for="Lab" class="form-label">Exámen</label>
+                                    <input type="text" class="form-control" id="Lab" name="Lab" autocomplete="off">
+                                </div>
+                                <div class="form-input">
+                                    <label for="mes" class="form-label">Mes</label>
+                                    <input type="text" class="form-control" id="mes" name="mes" autocomplete="off">
+                                </div>
+                                <div class="form-input">
+                                    <label for="dia" class="form-label">Dia</label>
+                                    <input type="text" class="form-control" id="dia" name="dia" autocomplete="off">
+                                </div>
+                                <div class="form-input">
+                                    <label for="año" class="form-label">Año</label>
+                                    <input type="text" class="form-control" id="año" name="año" autocomplete="off">
+                                </div>
+                                <div class="form-input">
+                                    <label for="hora" class="form-label">Hora</label>
+                                    <input type="text" class="form-control" id="hora" name="hora" autocomplete="off">
+                                </div>
+                                <div class="form-input">
+                                    <label for="estado" class="form-label">Estado</label>
+                                    <input type="text" class="form-control" id="estado" name="estado"
+                                        autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="form-input" style="margin-top: 20px;">
+                                <h1 class="display-6" style="text-align: center;">¿Seguro/a que desea eliminar esta
+                                    cita?
+                                </h1>
+                            </div>
+                        </div>
+                        <div class="modal-footer" id="footerDelete">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="button" id="btnEliminar" class="btn btn-danger">Confirmar</button>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>    
+</body>
+<!-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script> -->
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"></script>
+<script src="https://cdn.datatables.net/fixedheader/3.2.0/js/dataTables.fixedHeader.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.9/js/responsive.bootstrap5.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-kQtW33rZJAHjgefvhyyzcGF3C5TFyBQBA13V1RKPf4uH+bwyzQxZ6CmMZHmNBEfJ"
+    crossorigin="anonymous"></script>
+
+
+<script>
+
+    $(document).ready(function () {
+        var table = $('#conTable').DataTable({
+            responsive: true,
+            language: {
+                processing: "Búsqueda en curso...",
+                search: "Buscar:",
+                lengthMenu: "Mostrar _MENU_ registros",
+                info: "Página _PAGE_ de _PAGES_",
+                infoEmpty: "No hay registros disponibles",
+                infoFiltered: "(filtrado de _MAX_ elementos)",
+                zeroRecords: "No hay registros con este criterio de búsqueda",
+                infoPostFix: "",
+                loadingRecords: "Cargando...",
+                emptyTable: "La tabla aún no contiene registros",
+                paginate: {
+                    first: "Primero",
+                    previous: "Anterior",
+                    next: "Siguiente",
+                    last: "último"
+                },
+                aria: {
+                    sortAscending: ": Ordenar de forma ascendente",
+                    sortDescending: ": Ordenar de forma descendente"
+                }
+            }
+        });
+        new $.fn.dataTable.FixedHeader(table);
+    });
+
+    function Eliminar(id) {
+        $.ajax({
+            type: 'post',
+            cache: false,
+            dataType: "json",
+            url: '/DatosUsuario',
+            data: { idC: id }, //Se pasa el $id
+            success: function (datos) {
+                console.log('NOJODA');
+                console.log(datos)
+                document.getElementById('Id').value = datos[0].idcitas;
+                document.getElementById('email').value = datos[0].Correo;
+                document.getElementById('Name').value = datos[0].Nombres;
+                document.getElementById('Lastname').value = datos[0].Apellidos;
+                document.getElementById('TipoCita').value = datos[0].Solicitud;
+                document.getElementById('opciones').value = datos[0].Especialidad;
+                document.getElementById('Doctores').value = datos[0].Doctor;
+                document.getElementById('Lab').value = datos[0].Examen;
+                var Mes;
+                if (datos[0].Mes == "January") {
+                    Mes = "Enero"
+                } else if (datos[0].Mes == "February") {
+                    Mes = "Febrero"
+                } else if (datos[0].Mes == "March") {
+                    Mes = "Marzo"
+                } else if (datos[0].Mes == "April") {
+                    Mes = "Abril"
+                } else if (datos[0].Mes == "May") {
+                    Mes = "Mayo"
+                } else if (datos[0].Mes == "June") {
+                    Mes = "Junio"
+                } else if (datos[0].Mes == "July") {
+                    Mes = "Julio"
+                } else if (datos[0].Mes == "August") {
+                    Mes = "Agosto"
+                } else if (datos[0].Mes == "September") {
+                    Mes = "Septiembre"
+                } else if (datos[0].Mes == "October") {
+                    Mes = "Octubre"
+                } else if (datos[0].Mes == "November") {
+                    Mes = "Noviembre"
+                } else if (datos[0].Mes == "December") {
+                    Mes = "Diciembre"
+                }
+                document.getElementById('mes').value = Mes;
+                document.getElementById('dia').value = datos[0].Dia;
+                document.getElementById('año').value = datos[0].Año;
+                document.getElementById('hora').value = datos[0].Hora12;
+                document.getElementById('estado').value = datos[0].Estado_cita;
+                $("#EliminarModal").modal("toggle");
+            }
+        });
+    }
+
+    $('#btnEliminar').click(function () {
+        let data = Datos();
+        console.log(data)
+        if (!data) {
+            console.log('error')
+        } else {
+            eliminarCita(data);
+        }
+    })
+    function Datos() {
+        let data = {
+            id: $('#Id').val(),
+            correo: $('#email').val(),
+            nombre: $('#Name').val(),
+            apellido: $('#Lastname').val(),
+            tipocita: $('#TipoCita').val(),
+            especialidad: $('#opciones').val(),
+            doctor: $('#Doctores').val(),
+            examen: $('#Lab').val(),
+            fechaMes: $('#mes').val(),
+            fechaDia: $('#dia').val(),
+            fechaYear: $('#año').val(),
+            hora: $('#hora').val(),
+            estado: $('#estado').val()
+        };
+        return data
+    }
+    function eliminarCita(data) {
+        $.ajax({
+            type: 'POST',
+            url: '/EliminarSolicitud',
+            data: data,
+            success: function (msg) {
+                Swal.fire(
+                    '¡Buen trabajo!',
+                    '¡Se ha cancelado la cita médica correctamente!',
+                    'success'
+                ).then(function () {
+                    window.location = "/ConsultarUser";
+                });
+            },
+            error: function (error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Hubo un error, no se pudo cancelar la cita'
+                })
+            }
+        });
+    }
+
+    function Actualizar(id) {
+        console.log(id)
+        $.ajax({
+            type: 'post',
+            cache: false,
+            dataType: "json",
+            url: '/DatosUsuarioA',
+            data: { idC: id }, //Se pasa el $id
+            success: function (datos) {
+
+                console.log('Actualizar')
+                document.getElementById('Id').value = datos[0].idcitas;
+                document.getElementById('Name').value = datos[0].Nombres;
+                document.getElementById('Lastname').value = datos[0].Apellidos;
+                document.getElementById('email').value = datos[0].Correo;
+                document.getElementById('number').value = datos[0].Celular;
+                document.getElementById('Cedula').value = datos[0].Numero_Documento;
+                document.getElementById('orden').value = datos[0].Orden;
+
+                $("#ActualizarModal").modal("toggle");
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        $('#ask').on('change', function () {
+            if (this.value == '1') {
+                $("#doc").hide();
+            }
+            else if (this.value == '2') {
+                $("#doc").show();
+            } else {
+                $("#doc").hide();
+            }
+        });
+    });
+
+    var date = new Date();
+    var year = date.getFullYear();
+    console.log(year)
+    if (year == '2021') {
+        natDays = [
+            [1, 1, 2021],
+            [1, 11, 2021],
+            [3, 22, 2021],
+            [4, 1, 2021],
+            [4, 2, 2021],
+            [5, 1, 2021],
+            [5, 17, 2021],
+            [6, 7, 2021],
+            [6, 14, 2021],
+            [7, 5, 2021],
+            [7, 20, 2021],
+            [8, 7, 2021],
+            [8, 16, 2021],
+            [10, 18, 2021],
+            [11, 1, 2021],
+            [11, 15, 2021],
+            [12, 8, 2021],
+            [12, 25, 2021]
+        ];
+    }
+
+    function nationalDays(date) {
+        for (i = 0; i < natDays.length; i++) {
+            if (date.getMonth() == natDays[i][0] - 1 &&
+                date.getDate() == natDays[i][1]) {
+                return [false, natDays[i][2] + '_day'];
+            }
+        }
+        var day = date.getDay();
+        return [(day != 0)];
+    }
+    $(function () {
+        $("#fecha").datepicker({
+            dateFormat: 'mm-dd-yy',
+            minDate: new Date(),
+            maxDate: '+2m',
+            monthNames: ['Enero', 'Febrero', 'Marzo',
+                'Abril', 'Mayo', 'Junio',
+                'Julio', 'Agosto', 'Septiembre',
+                'Octubre', 'Noviembre', 'Diciembre'
+            ],
+            monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
+                'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'
+            ],
+            dayNamesMin: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+            beforeShowDay: nationalDays,
+            // onSelect: async function (date) {
+            //     console.log(date)
+            //     var variable = document.getElementById('fecha').value;
+            //     var Especialidad = document.getElementById('opciones').value;
+            //     var Doctor = document.getElementById('Doctores').value;
+            //     var Laboratorio = document.getElementById('Lab').value;
+
+            //     var tipo = document.getElementById('TipoCita').value;
+
+            //     if (tipo == 'Cita médica') {
+            //         const consulta = {
+            //             variable: variable,
+            //             Especialidad: Especialidad,
+            //             Doctor: Doctor,
+            //             date: date
+            //         };
+            //         const options = {
+            //             method: "POST",
+            //             body: JSON.stringify(consulta),
+            //             headers: {
+            //                 "Content-Type": "application/json"
+            //             }
+            //         };
+            //         var response = await fetch('/OpcionesHorario', options);
+            //         console.log(response);
+            //         var hora = await response.json();
+            //         console.log(hora);
+
+            //         select = document.getElementById('Horario');
+            //         $("#Horario").empty();
+            //         for (var i = 0; i < hora.length; i++) {
+            //             var opt = document.createElement('option');
+            //             opt.value = hora[i];
+            //             opt.innerHTML = hora[i];
+            //             select.add(opt);
+            //         }
+            //         $("#Horario").prepend(
+            //             '<option selected="true" value="0">Seleccionar hora</option>');
+            //         return false;
+            //     } else if (tipo == 'Examen de laboratorio') {
+            //         const consulta = {
+            //             variable: variable,
+            //             Laboratorio: Laboratorio,
+            //             date: date
+            //         };
+            //         const options = {
+            //             method: "POST",
+            //             body: JSON.stringify(consulta),
+            //             headers: {
+            //                 "Content-Type": "application/json"
+            //             }
+            //         };
+            //         var response = await fetch('/OpcionesHorarioLab', options);
+            //         console.log(response);
+            //         var hora = await response.json();
+            //         console.log(hora);
+
+            //         select = document.getElementById('Horario');
+            //         $("#Horario").empty();
+            //         for (var i = 0; i < hora.length; i++) {
+            //             var opt = document.createElement('option');
+            //             opt.value = hora[i];
+            //             opt.innerHTML = hora[i];
+            //             select.add(opt);
+            //         }
+            //         $("#Horario").prepend(
+            //             '<option selected="true" value="0">Seleccionar hora</option>');
+            //         return false;
+            //     }
+
+
+            // },
+        })
+    });
+
+
+    $('#btnActualizar').click(function () {
+        let data = DatosActualizar();
+        console.log(data)
+        if (!data) {
+            console.log('error')
+        } else {
+            ActualizarDatos(data);
+        }
+    })
+
+    function DatosActualizar() {
+        let data = {
+            id: $('#Id').val(),
+            Name: $('#Name').val(),
+            Lastname: $('#Lastname').val(),
+            email: $('#email').val(),
+            number: $('#number').val(),
+            ask: $('#ask').val(),
+            Tipo: $('#Tipo').val(),
+            Cedula: $('#Cedula').val(),
+            orden: $('#orden').val()
+        };
+        if (data.Name == "") {
+            Swal.fire({
+                icon: 'error',
+                text: 'Debe escribir los nombres'
+            })
+            event.preventDefault();
+            return false;
+        }
+        if (data.Lastname == "") {
+            Swal.fire({
+                icon: 'error',
+                text: 'Debe escribir los apellidos'
+            })
+            event.preventDefault();
+            return false;
+        }
+        if (data.email == "") {
+            Swal.fire({
+                icon: 'error',
+                text: 'Debe escribir el correo electrónico'
+            })
+            event.preventDefault();
+            return false;
+        }
+        if (data.number == "") {
+            Swal.fire({
+                icon: 'error',
+                text: 'Debe escribir su número de celular'
+            })
+            event.preventDefault();
+            return false;
+        }
+        if (data.number.length = !10) {
+            Swal.fire({
+                icon: 'error',
+                text: 'Número de celular inválido'
+            })
+            event.preventDefault();
+            return false;
+        }
+        if (data.ask == "0") {
+            Swal.fire({
+                icon: 'error',
+                text: 'Debe responder si el tipo de documento es el mismo o no'
+            })
+            event.preventDefault();
+            return false;
+        }
+        if (data.ask == "2" & data.Tipo == "0") {
+            Swal.fire({
+                icon: 'error',
+                text: 'Debe seleccionar el tipo de documento'
+            })
+            event.preventDefault();
+            return false;
+        }
+        if (data.Cedula == "") {
+            Swal.fire({
+                icon: 'error',
+                text: 'Debe escribir su número de documento'
+            })
+            event.preventDefault();
+            return false;
+        }
+        if (data.orden == "") {
+            Swal.fire({
+                icon: 'error',
+                text: 'Debe escribir el número de la orden médica'
+            })
+            event.preventDefault();
+            return false;
+        }
+        return data;
+    }
+
+    function ActualizarDatos(data) {
+        $.ajax({
+            type: 'POST',
+            url: '/ActualizarSolicitud',
+            data: data,
+            success: function (msg) {
+                Swal.fire(
+                    '¡Buen trabajo!',
+                    '¡Se han enviado correctamente los datos!',
+                    'success'
+                ).then(function () {
+                    window.location = "/ConsultarUser";
+                });
+            },
+            error: function (error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Hubo un error'
+                })
+            }
+        });
+    }
+
+</script>
+
+</html>
