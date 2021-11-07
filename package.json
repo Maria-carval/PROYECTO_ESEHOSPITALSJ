@@ -19,6 +19,7 @@
     "express-validator": "^6.12.1",
     "flash": "^1.1.0",
     "json": "^11.0.0",
+    "jsonwebtoken": "^8.5.1",
     "mogoose": "^0.0.1-security",
     "morgan": "^1.10.0",
     "mysql": "^2.18.1",

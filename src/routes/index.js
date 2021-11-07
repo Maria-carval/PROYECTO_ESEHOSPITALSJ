@@ -1,17 +1,11 @@
 import express, { Router } from "express";
 import registerController from "../controllers/registerController";
-import validation from "../validation/registerValidation";
 import loginController from "../controllers/loginController";
 import userController from "../controllers/userController";
 import adminController from "../controllers/adminController";
-import path from "path";
+import forgotPasswordController from "../controllers/forgotPasswordController";
+import resetPasswordController from "../controllers/resetPasswordController";
 
-// const express = require('express');
-// const router = express.Router();
-// const bodyParser = require('body-parser');
-// const { json } = require('body-parser');
-
-const connection = require('../configs/connectDB');
 
 let router = express.Router();
 
@@ -29,6 +23,13 @@ let Routes = (app) => {
     //RUTAS QUE REDIRECCIONAN A LA PÁGINA PRINCIPAL DE CADA MÓDULO   
     router.get("/usuario/usuario", userController.getUser);
     router.get("/admin/admin", adminController.getAdmin);
+
+    //RUTAS PARA FORGOT AND RESET PASSWORD 
+    router.get('/forgot-passwordRest', forgotPasswordController.Rest);
+    router.get('/Olvidarpassword', forgotPasswordController.forgot);
+    router.post('/Olvidarpassword', forgotPasswordController.checkaccountforgot);
+    router.get('/Restaurarpassword/:id/:token', resetPasswordController.RestaurarPage);
+    router.post('/Restaurarpassword', resetPasswordController.ChangePassword);
    
     //RUTAS PARA LA PÁGINA DE USUARIO
     router.post('/Especialidad', userController.OpcionesEspe);
@@ -64,17 +65,6 @@ let Routes = (app) => {
 
     return app.use("/", router);
 };
-
-
-
-
-// router.get('/registrodeusuario', (req, res) => {
-//     res.render('register.ejs');
-    
-//     //res.send('HELLO, I CANNOT SPEAK ENGLISH FLUENTLY, FOR THIS REASON I CONSIDER THAT I NEED SOME HELP');
-// })
-
-
 
 
 module.exports = Routes;
