@@ -15,18 +15,6 @@ let getUser = (req, res) => {
     }
 }
 
-let Prueba = (req, res) => {
-    if (req.session.user) {
-        return res.render("./usuario/prueba.ejs", {
-            user: req.session.context
-        });
-    } else {
-        return res.render("login.ejs", {
-            errors: req.session.context
-        });
-    }
-}
-
 let OpcionesEspe = (req, res) => {
     connection.query('SELECT Especialidad FROM especialidad', (err, data) => {
         if (err) {
@@ -309,33 +297,87 @@ let Actualizar = async (req, res) => {
         var Pregunta = req.body.ask;
         var Cedula = req.body.Cedula;
         var Orden = req.body.orden;
-        
-        if(Pregunta == '1'){
-            connection.query(`UPDATE citas SET Nombres = ?, Apellidos = ?, Correo = ?,
-            Celular = ?, Numero_Documento = ?, Orden = ? WHERE idcitas = ?`, [Nombre, Apellido, Correo,
-                Celular, Cedula, Orden, id], (err, datos) => {
-                if (err) {
-                    res.json(err);
-                }
-                console.log(datos); 
-                res.redirect('/ConsultarUser');          
-            });
-        } else if(Pregunta == '2'){
-            var Tipo = req.body.Tipo;
-            console.log(Tipo);
+        var PreguntaSolicitud = req.body.asktipo;
+        var Fecha = req.body.fecha;
+        var datearray = Fecha.split("-");
+        var newdate = datearray[2] + '-' + datearray[0] + '-' + datearray[1];
+        var Hora = req.body.Horario;
 
-            connection.query(`UPDATE citas SET Nombres = ?, Apellidos = ?, Correo = ?,
-            Celular = ?, Tipo_Documento = ?, Numero_Documento = ?, Orden = ? WHERE idcitas = ?`, [Nombre, 
-                Apellido, Correo, Celular, Tipo, Cedula, Orden, id], (err, datos) => {
-                if (err) {
-                    res.json(err);
-                }
-                console.log(datos); 
-                res.redirect('/ConsultarUser');          
-            });
-        } else {
-            console.log('No hacer ninguna acción')
-        }
+        if(PreguntaSolicitud == '1'){
+            if(Pregunta == '1'){
+                connection.query(`UPDATE citas SET Nombres = ?, Apellidos = ?, Correo = ?,
+                Celular = ?, Numero_Documento = ?, Orden = ? WHERE idcitas = ?`, [Nombre, Apellido, Correo,
+                    Celular, Cedula, Orden, id], (err, datos) => {
+                    if (err) {
+                        res.json(err);
+                    }
+                    console.log(datos); 
+                    res.redirect('/ConsultarUser');          
+                });
+            } else if(Pregunta == '2'){
+                var Tipo = req.body.Tipo;
+                console.log(Tipo);
+    
+                connection.query(`UPDATE citas SET Nombres = ?, Apellidos = ?, Correo = ?,
+                Celular = ?, Tipo_Documento = ?, Numero_Documento = ?, Orden = ? WHERE idcitas = ?`, [Nombre, 
+                    Apellido, Correo, Celular, Tipo, Cedula, Orden, id], (err, datos) => {
+                    if (err) {
+                        res.json(err);
+                    }
+                    console.log(datos); 
+                    res.redirect('/ConsultarUser');          
+                });
+            } else {
+                console.log('No hacer ninguna acción')
+            }
+        } else if(PreguntaSolicitud == '2'){
+            var Solicitud = req.body.TipoCita;
+            var Especialidad, Doctor, Examen;
+            if(Solicitud == 'Cita médica'){
+                Especialidad = req.body.opciones;
+                Doctor = req.body.Doctores;
+                Examen = 'No aplica'
+            } else if(Solicitud == 'Examen de laboratorio'){
+                Especialidad = 'No aplica';
+                Doctor = 'No aplica';
+                Examen = req.body.Laboratorio;
+            } else {
+                console.log('punto')
+            }
+
+            if(Pregunta == '1'){
+
+                connection.query(`UPDATE citas SET Nombres = ?, Apellidos = ?, Correo = ?,
+                Celular = ?, Numero_Documento = ?, Orden = ?, Solicitud = ?, Especialidad = ?,
+                Doctor = ?, Examen = ?, Fecha = ?, Hora = ? WHERE idcitas = ?`, [Nombre, Apellido, Correo,
+                    Celular, Cedula, Orden, Solicitud, Especialidad, Doctor, Examen,
+                    newdate, Hora, id], (err, datos) => {
+                    if (err) {
+                        res.json(err);
+                    }
+                    console.log(datos); 
+                    res.redirect('/ConsultarUser');          
+                });
+
+            } else if(Pregunta == '2'){
+
+                var Tipo = req.body.Tipo;
+
+                connection.query(`UPDATE citas SET Nombres = ?, Apellidos = ?, Correo = ?,
+                Celular = ?, Tipo_Documento = ?, Numero_Documento = ?, Orden = ?, Solicitud = ?, Especialidad = ?,
+                Doctor = ?, Examen = ?, Fecha = ?, Hora = ? WHERE idcitas = ?`, [Nombre, Apellido, Correo,
+                    Celular, Tipo, Cedula, Orden, Solicitud, Especialidad, Doctor, Examen,
+                    newdate, Hora, id], (err, datos) => {
+                    if (err) {
+                        res.json(err);
+                    }
+                    console.log(datos); 
+                    res.redirect('/ConsultarUser');          
+                });
+            } else{
+                console.log('error')
+            }
+        }  
 
    
     } else {
@@ -409,9 +451,6 @@ let Eliminar = async (req, res) => {
 
 module.exports = {
     getUser: getUser,
-
-    Prueba: Prueba,
-
     OpcionesEspe: OpcionesEspe,
     OpcionesDr: OpcionesDr,  
     OpcionesLab: OpcionesLab,

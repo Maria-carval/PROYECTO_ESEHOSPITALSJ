@@ -49,7 +49,8 @@ let Routes = (app) => {
     router.post('/EliminarSolicitud',userController.Eliminar);
 
     //RUTAS PARA LA PÁGINA DE ADMINISTRADOR  
-    router.get('/Solicitudes',adminController.Solicitudes);    
+    router.get('/Solicitudes',adminController.Solicitudes); 
+    router.get('/Aceptadas',adminController.Aceptadas);    
     router.post('/ListaMedico',adminController.medicina);
     router.post('/ListaOdontologo',adminController.odontologia);
     router.post('/ListaLaboratorios',adminController.laboratorio);

@@ -113,6 +113,27 @@ let Solicitudes = (req, res) => {
     }
 };
 
+let Aceptadas = (req, res) => {
+    if (req.session.admin) {
+        connection.query(`SELECT idcitas, Nombres, Apellidos, Correo, Celular, Tipo_Documento, 
+        Numero_Documento, Afiliacion, Regimen, Entidad, Solicitud, Especialidad, Doctor, Examen,
+        DATE_FORMAT(Fecha, "%Y-%m-%d") Fecha, Hora, DATE_FORMAT(Hora, "%I:%i:%p") Hora12, Orden, Descripcion FROM citas
+        WHERE Estado_cita = "Aceptada"`, (err, data) => {
+            if (err) {
+                res.json(err);
+            }
+            console.log(data);
+            res.render('./admin/adminAceptado.ejs', {
+                data: data                            
+            });
+        });
+    } else {
+        return res.render("login.ejs", {
+            errors: req.session.context
+        });
+    }
+};
+
 let SolicitudesIndivial = (req, res) => {
     //const id = req.params.idcitas;
     var id = req.body.idC;
@@ -215,6 +236,7 @@ module.exports = {
     AgendaOdont: AgendaOdont,
     AgendaLab: AgendaLab,
     Solicitudes: Solicitudes,
+    Aceptadas: Aceptadas,
     SolicitudesIndivial:SolicitudesIndivial,
     Aceptar: Aceptar,
     Rechazar: Rechazar
