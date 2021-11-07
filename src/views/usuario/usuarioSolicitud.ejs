@@ -318,6 +318,17 @@
                                                 </option>
                                             </select>
                                         </div>
+                                        <div class="form-input" id="divfactura" style="display: none;">
+                                            <label for="Factura" class="form-label">¿Bajo que afiliación
+                                                desea solicitar esta cita?<label class="redText">*</label></label>
+                                            <select class="form-select" aria-label="Default select example"
+                                                style="margin-right: 20px;" id="Factura" name="Factura"
+                                                onchange="limpiarAfiliacion()">
+                                                <option value="0">Seleccionar afiliación</option>
+                                                <option value="EPS">EPS</option>
+                                                <option value="Particular">Particular</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </section>
@@ -334,7 +345,30 @@
                                             debe
                                             seleccionar el tipo de examen.</figcaption>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6">                                        
+                                        <div style="display: none;" id="ListaEps">
+                                            <div class="form-input">
+                                                <label for="regimen" class="form-label">Tipo de
+                                                    régimen<label class="redText">*</label></label>
+                                                <select class="form-select" aria-label="Default select example"
+                                                    id="regimen" name="regimen">
+                                                    <option value="0">Seleccionar tipo de régimen
+                                                    </option>
+                                                    <option value="Subsidiado">Subsidiado
+                                                    </option>
+                                                    <option value="Contributivo">Contributivo
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <div class="form-input">
+                                                <label for="entidad" class="form-label">Entidad prestadora
+                                                    de salud<label class="redText">*</label></label>
+                                                <select class="form-select" aria-label="Default select example"
+                                                    id="entidad" name="entidad">
+                                                    <option value="0">Seleccionar la entidad</option>
+                                                </select>
+                                            </div>
+                                        </div>
                                         <div class="form-input" id="divTipo" style="display: none;">
                                             <label for="TipoCita" class="form-label">Tipo de solicitud
                                                 <label class="redText">*</label></label>
@@ -745,17 +779,20 @@
             if (this.value == '1') {
                 $("#divTipo").hide();
                 $("#divImage").hide();
+                $("#divfactura").hide();
                 $("#footer").show();
                 $("#divdesp").hide();
             }
             else if (this.value == '2') {
                 $("#divTipo").show();
                 $("#divImage").show();
+                $("#divfactura").show();
                 $("#footer").hide();
                 $("#divdesp").show();
             } else {
                 $("#divTipo").hide();
                 $("#divImage").hide();
+                $("#divfactura").hide();
                 $("#footer").hide();
                 $("#divdesp").hide();
             }
@@ -783,6 +820,18 @@
             $("#titulopersonal").show();
             $("#titulocita").hide();
             $("#divant").hide();
+        });
+    });
+
+    $(document).ready(function () {
+        $('#Factura').on('change', function () {
+            if (this.value == 'EPS') {
+                eps();
+                $("#ListaEps").show();
+            }
+            else {               
+                $("#ListaEps").hide();
+            }
         });
     });
 
@@ -815,6 +864,35 @@
             }
         });
     });
+
+    
+    async function eps() {
+        var variable = document.getElementById('entidad').value;
+        const consulta = {
+            con: variable
+        };
+        const options = {
+            method: "POST",
+            body: JSON.stringify(consulta),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        };
+        const response = await fetch('/listaEPS', options);
+        datos = await response.json();
+        select = document.getElementById('entidad');
+        for (var i = 0; i < datos.length; i++) {
+            var opt = document.createElement('option');
+            opt.value = datos[i].EPS;
+            opt.innerHTML = datos[i].EPS;
+            select.add(opt);
+        }
+    }
+
+    function limpiarAfiliacion() {
+        $("#entidad").empty();
+        $("#entidad").prepend('<option selected="true" value="0">Seleccionar la entidad</option>');
+    }
 
     //+++++++++++ CARGA A LOS SELECT CON LAS OPCIONES SEGÚN LA ESPECIALIDAD +++++++++++++++++//
     async function consulta() {
@@ -1171,6 +1249,9 @@
             Cedula: $('#Cedula').val(),
             orden: $('#orden').val(),
             asktipo: $('#asktipo').val(),
+            Factura: $('#Factura').val(),
+            regimen: $('#regimen').val(),
+            entidad: $('#entidad').val(),
             TipoCita: $('#TipoCita').val(),
             opciones: $('#opciones').val(),
             Doctores: $('#Doctores').val(),
@@ -1254,6 +1335,30 @@
             Swal.fire({
                 icon: 'error',
                 text: 'Debe responder si la información de la solicitud es la misma o no'
+            })
+            event.preventDefault();
+            return false;
+        }
+        if (data.asktipo == "2" & data.Factura == "0") {
+            Swal.fire({
+                icon: 'error',
+                text: 'Debe seleccionar el tipo de afiliación'
+            })
+            event.preventDefault();
+            return false;
+        }
+        if (data.asktipo == "2" & data.Factura == "EPS" & data.regimen == "0") {
+            Swal.fire({
+                icon: 'error',
+                text: 'Debe seleccionar el régimen al que pertenece'
+            })
+            event.preventDefault();
+            return false;
+        }
+        if (data.asktipo == "2" & data.Factura == "EPS" & data.entidad == "0") {
+            Swal.fire({
+                icon: 'error',
+                text: 'Debe seleccionar la EPS a la que se encuentra afiliado(a)'
             })
             event.preventDefault();
             return false;

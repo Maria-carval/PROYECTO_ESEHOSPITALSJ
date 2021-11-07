@@ -21,7 +21,7 @@ let OpcionesEspe = (req, res) => {
             res.json(err);
         }
         var datos = data
-        res.end(JSON.stringify(datos));        
+        res.end(JSON.stringify(datos));
     });
 };
 
@@ -31,7 +31,7 @@ let OpcionesDr = (req, res) => {
             res.json(err);
         }
         var datos = data
-        res.end(JSON.stringify(datos));        
+        res.end(JSON.stringify(datos));
     });
 };
 
@@ -41,7 +41,7 @@ let OpcionesLab = (req, res) => {
             res.json(err);
         }
         var datos = data
-        res.end(JSON.stringify(datos));        
+        res.end(JSON.stringify(datos));
     });
 };
 
@@ -51,7 +51,7 @@ let OpcionesEPS = (req, res) => {
             res.json(err);
         }
         var datos = data
-        res.end(JSON.stringify(datos));        
+        res.end(JSON.stringify(datos));
     });
 };
 
@@ -65,44 +65,44 @@ let OpcionesHorario = async (req, res) => {
     console.log(Doctor);
     var Especialidad = req.body.Especialidad;
     console.log(Especialidad);
-    var date = new Date(Fecha); 
+    var date = new Date(Fecha);
     //A ESA FECHA SE LE OBTIENE EL DÍA PARA COMPARARLO CON EL QUE ESTÁ EN LA BASE DE DATOS
     var Dia = date.getDay();
-  
+
     var i = 0;
-    
+
     //TRAER LOS HORARIOS DE LOS MÉDICOS SEGÚN SU ESPECIALIDAD
     let Horarios = await userService.RevisarHorarios(Dia, Doctor, Especialidad);
     i = 0;
-    var Vector_HI = [];    
+    var Vector_HI = [];
 
     //AGREGAR LOS HORARIOS EN EL VECTOR 
     Object.keys(Horarios).forEach(function (key) {
-        Vector_HI[i] = Horarios[key].Hora_Inicio;         
+        Vector_HI[i] = Horarios[key].Hora_Inicio;
         i++;
     });
-    
+
     console.log(Vector_HI);
 
     //TRAER LAS CITAS QUE HAN SIDO AGENDADAS O ESTÁN PENDIENTE DE APROBACIÓN
     let citas = await userService.consultarCitasDisponibles(Fecha, Especialidad, Doctor);
     i = 0;
     var Vector_Cita = [];
-    
+
     Object.keys(citas).forEach(function (key) {
         Vector_Cita[i] = citas[key].Hora;
         i++;
-    });  
+    });
     console.log(Vector_Cita);
 
     //UTILIZAR FILTER SOLO PARA SELECCIONAR LOS HORARIOS DISPONIBLES
     Vector_HI = Vector_HI.filter(function (element) {
         return !Vector_Cita.includes(element);
-    });   
-      
+    });
+
     var hora = Vector_HI;
     res.end(JSON.stringify(hora));
-    console.log(hora)    
+    console.log(hora)
 }
 
 let OpcionesHorarioLab = async (req, res) => {
@@ -112,45 +112,45 @@ let OpcionesHorarioLab = async (req, res) => {
 
     var Examen = req.body.Laboratorio;
     console.log(Examen);
-    
-    var date = new Date(Fecha); 
+
+    var date = new Date(Fecha);
     //A ESA FECHA SE LE OBTIENE EL DÍA PARA COMPARARLO CON EL QUE ESTÁ EN LA BASE DE DATOS
     var Dia = date.getDay();
-  
+
     var i = 0;
-    
+
     //TRAER LOS HORARIOS DE LOS MÉDICOS SEGÚN EL TIPO DE EXAMEN
     let Horarios = await userService.RevisarHorariosLab(Dia, Examen);
     i = 0;
-    var Vector_HI = [];    
+    var Vector_HI = [];
 
     //AGREGAR LOS HORARIOS EN EL VECTOR 
     Object.keys(Horarios).forEach(function (key) {
-        Vector_HI[i] = Horarios[key].Hora_Inicio;         
+        Vector_HI[i] = Horarios[key].Hora_Inicio;
         i++;
     });
-    
+
     console.log(Vector_HI);
 
     //TRAER LAS CITAS QUE HAN SIDO AGENDADAS O ESTÁN PENDIENTE DE APROBACIÓN
     let citas = await userService.consultarCitasDisponiblesLab(Fecha, Examen);
     i = 0;
     var Vector_Cita = [];
-    
+
     Object.keys(citas).forEach(function (key) {
         Vector_Cita[i] = citas[key].Hora;
         i++;
-    });  
+    });
     console.log(Vector_Cita);
 
     //UTILIZAR FILTER SOLO PARA SELECCIONAR LOS HORARIOS DISPONIBLES
     Vector_HI = Vector_HI.filter(function (element) {
         return !Vector_Cita.includes(element);
-    });   
-      
+    });
+
     var hora = Vector_HI;
     res.end(JSON.stringify(hora));
-    console.log(hora)    
+    console.log(hora)
 }
 
 let TablaHorario = (req, res) => {
@@ -160,7 +160,7 @@ let TablaHorario = (req, res) => {
         }
         console.log(data)
         var data = data
-        res.end(JSON.stringify(data));        
+        res.end(JSON.stringify(data));
     });
 };
 
@@ -171,21 +171,21 @@ let TablaHorarioLab = (req, res) => {
         }
         console.log(data)
         var data = data
-        res.end(JSON.stringify(data));        
+        res.end(JSON.stringify(data));
     });
 };
 
 let SolicitarCita = async (req, res) => {
     const datos = req.body;
     var Nombre = req.body.Name;
-    var Apellido = req.body.Lastname; 
-    var Correo = req.body.email; 
-    var Celular = req.body.number;  
+    var Apellido = req.body.Lastname;
+    var Correo = req.body.email;
+    var Celular = req.body.number;
     var Tipo = req.body.Tipo;
     var Cedula = req.body.Cedula;
 
     var Factura = req.body.Factura;
-    var Regimen,Entidad;
+    var Regimen, Entidad;
     if (Factura == "EPS") {
         Regimen = req.body.regimen;
         Entidad = req.body.entidad
@@ -205,16 +205,22 @@ let SolicitarCita = async (req, res) => {
         Doctor = 'No aplica';
         Examen = req.body.Laboratorio;
     }
-        
+
     var Fecha = req.body.fecha;
-    var Hora = req.body.Horario;  
+    var Hora = req.body.Horario;
     var Orden = req.body.orden;
-    var Descripcion = req.body.descripcion;
+    var Descripcion;
+    if (!Descripcion) {
+        Descripcion = 'No aplica';
+    } else {
+        Descripcion = req.body.descripcion;
+    }
+
     var user = req.session.context;
-    var IdU = user.idusuario;     
- 
-    var Estado = 'Pendiente';   
-   
+    var IdU = user.idusuario;
+
+    var Estado = 'Pendiente';
+
     var datearray = Fecha.split("-");
     var newdate = datearray[2] + '-' + datearray[0] + '-' + datearray[1];
 
@@ -227,10 +233,10 @@ let SolicitarCita = async (req, res) => {
     } else if (TipoCita == "Examen de laboratorio") {
         CitasDispo = await userService.ConsultarDisponibilidadLab(Examen, newdate, Hora);
     }
-    
+
     if (CitasDispo) {
         await userService.Solicitar(Nombre, Apellido, Correo, Celular, Tipo, Cedula, Factura, Regimen,
-        Entidad, TipoCita, Especialidad, Doctor, Examen, newdate, Hora, Orden, Descripcion, IdU, Estado);
+            Entidad, TipoCita, Especialidad, Doctor, Examen, newdate, Hora, Orden, Descripcion, IdU, Estado);
 
         res.redirect('/usuario/usuario')
     } else {
@@ -275,7 +281,7 @@ let DatosUserA = (req, res) => {
             }
             console.log(datos);
             var datos = datos
-            res.end(JSON.stringify(datos));        
+            res.end(JSON.stringify(datos));
         });
     } else {
         return res.render("login.ejs", {
@@ -287,7 +293,7 @@ let DatosUserA = (req, res) => {
 
 let Actualizar = async (req, res) => {
     var user = req.session.context;
-    
+
     if (req.session.user) {
         var id = req.body.id;
         var Nombre = req.body.Name;
@@ -303,41 +309,50 @@ let Actualizar = async (req, res) => {
         var newdate = datearray[2] + '-' + datearray[0] + '-' + datearray[1];
         var Hora = req.body.Horario;
 
-        if(PreguntaSolicitud == '1'){
-            if(Pregunta == '1'){
+        if (PreguntaSolicitud == '1') {
+            if (Pregunta == '1') {
                 connection.query(`UPDATE citas SET Nombres = ?, Apellidos = ?, Correo = ?,
                 Celular = ?, Numero_Documento = ?, Orden = ? WHERE idcitas = ?`, [Nombre, Apellido, Correo,
                     Celular, Cedula, Orden, id], (err, datos) => {
-                    if (err) {
-                        res.json(err);
-                    }
-                    console.log(datos); 
-                    res.redirect('/ConsultarUser');          
-                });
-            } else if(Pregunta == '2'){
+                        if (err) {
+                            res.json(err);
+                        }
+                        console.log(datos);
+                        res.redirect('/ConsultarUser');
+                    });
+            } else if (Pregunta == '2') {
                 var Tipo = req.body.Tipo;
                 console.log(Tipo);
-    
+
                 connection.query(`UPDATE citas SET Nombres = ?, Apellidos = ?, Correo = ?,
-                Celular = ?, Tipo_Documento = ?, Numero_Documento = ?, Orden = ? WHERE idcitas = ?`, [Nombre, 
+                Celular = ?, Tipo_Documento = ?, Numero_Documento = ?, Orden = ? WHERE idcitas = ?`, [Nombre,
                     Apellido, Correo, Celular, Tipo, Cedula, Orden, id], (err, datos) => {
-                    if (err) {
-                        res.json(err);
-                    }
-                    console.log(datos); 
-                    res.redirect('/ConsultarUser');          
-                });
+                        if (err) {
+                            res.json(err);
+                        }
+                        console.log(datos);
+                        res.redirect('/ConsultarUser');
+                    });
             } else {
                 console.log('No hacer ninguna acción')
             }
-        } else if(PreguntaSolicitud == '2'){
+        } else if (PreguntaSolicitud == '2') {
+            var Factura = req.body.Factura;
+            var Regimen, Entidad;
+            if (Factura == "EPS") {
+                Regimen = req.body.regimen;
+                Entidad = req.body.entidad
+            } else {
+                Regimen = 'No aplica';
+                Entidad = 'No aplica';
+            }
             var Solicitud = req.body.TipoCita;
             var Especialidad, Doctor, Examen;
-            if(Solicitud == 'Cita médica'){
+            if (Solicitud == 'Cita médica') {
                 Especialidad = req.body.opciones;
                 Doctor = req.body.Doctores;
                 Examen = 'No aplica'
-            } else if(Solicitud == 'Examen de laboratorio'){
+            } else if (Solicitud == 'Examen de laboratorio') {
                 Especialidad = 'No aplica';
                 Doctor = 'No aplica';
                 Examen = req.body.Laboratorio;
@@ -345,41 +360,42 @@ let Actualizar = async (req, res) => {
                 console.log('punto')
             }
 
-            if(Pregunta == '1'){
+            if (Pregunta == '1') {
 
                 connection.query(`UPDATE citas SET Nombres = ?, Apellidos = ?, Correo = ?,
-                Celular = ?, Numero_Documento = ?, Orden = ?, Solicitud = ?, Especialidad = ?,
+                Celular = ?, Numero_Documento = ?, Afiliacion = ?, Regimen = ?, Entidad = ?, Orden = ?, Solicitud = ?, Especialidad = ?,
                 Doctor = ?, Examen = ?, Fecha = ?, Hora = ? WHERE idcitas = ?`, [Nombre, Apellido, Correo,
-                    Celular, Cedula, Orden, Solicitud, Especialidad, Doctor, Examen,
-                    newdate, Hora, id], (err, datos) => {
-                    if (err) {
-                        res.json(err);
-                    }
-                    console.log(datos); 
-                    res.redirect('/ConsultarUser');          
-                });
+                    Celular, Cedula, Factura, Regimen, Entidad, Orden, Solicitud, Especialidad, Doctor,
+                    Examen, newdate, Hora, id], (err, datos) => {
+                        if (err) {
+                            res.json(err);
+                        }
+                        console.log(datos);
+                        res.redirect('/ConsultarUser');
+                    });
 
-            } else if(Pregunta == '2'){
-
+            } else if (Pregunta == '2') {
+                
                 var Tipo = req.body.Tipo;
 
                 connection.query(`UPDATE citas SET Nombres = ?, Apellidos = ?, Correo = ?,
-                Celular = ?, Tipo_Documento = ?, Numero_Documento = ?, Orden = ?, Solicitud = ?, Especialidad = ?,
-                Doctor = ?, Examen = ?, Fecha = ?, Hora = ? WHERE idcitas = ?`, [Nombre, Apellido, Correo,
-                    Celular, Tipo, Cedula, Orden, Solicitud, Especialidad, Doctor, Examen,
-                    newdate, Hora, id], (err, datos) => {
-                    if (err) {
-                        res.json(err);
-                    }
-                    console.log(datos); 
-                    res.redirect('/ConsultarUser');          
-                });
-            } else{
+                Celular = ?, Tipo_Documento = ?, Numero_Documento = ?, Afiliacion = ?, Regimen = ?, 
+                Entidad = ?, Orden = ?, Solicitud = ?, Especialidad = ?, Doctor = ?, Examen = ?,
+                Fecha = ?, Hora = ? WHERE idcitas = ?`, [Nombre, Apellido, Correo, Celular, Tipo, 
+                Cedula, Factura, Regimen, Entidad, Orden, Solicitud, Especialidad, Doctor, Examen, 
+                newdate, Hora, id], (err, datos) => {
+                        if (err) {
+                            res.json(err);
+                        }
+                        console.log(datos);
+                        res.redirect('/ConsultarUser');
+                    });
+            } else {
                 console.log('error')
             }
-        }  
+        }
 
-   
+
     } else {
         return res.render("login.ejs", {
             errors: req.session.context
@@ -400,7 +416,7 @@ let DatosUser = (req, res) => {
             }
             console.log(datos);
             var datos = datos
-            res.end(JSON.stringify(datos));        
+            res.end(JSON.stringify(datos));
         });
     } else {
         return res.render("login.ejs", {
@@ -413,7 +429,7 @@ let Eliminar = async (req, res) => {
 
     const datos = req.body;
     const id = req.body.id;
-    
+
     console.log(datos)
 
     let variablesEliminar = {
@@ -427,16 +443,16 @@ let Eliminar = async (req, res) => {
         fechaMes: req.body.fechaMes,
         fechaDia: req.body.fechaDia,
         fechaYear: req.body.fechaYear,
-        hora: req.body.hora            
+        hora: req.body.hora
     };
     console.log(variablesEliminar);
 
     var estado = req.body.estado;
-    if(estado == "Aceptada"){
+    if (estado == "Aceptada") {
         await userService.EmailEliminar(variablesEliminar);
-    } else{
+    } else {
         console.log('No envía correo')
-    }    
+    }
 
     console.log("dios")
     connection.query('DELETE FROM citas WHERE idcitas = ?', [id], (err, datos) => {
@@ -452,17 +468,17 @@ let Eliminar = async (req, res) => {
 module.exports = {
     getUser: getUser,
     OpcionesEspe: OpcionesEspe,
-    OpcionesDr: OpcionesDr,  
+    OpcionesDr: OpcionesDr,
     OpcionesLab: OpcionesLab,
     OpcionesEPS: OpcionesEPS,
-    OpcionesHorario: OpcionesHorario, 
-    OpcionesHorarioLab: OpcionesHorarioLab,  
-    TablaHorario: TablaHorario,     
+    OpcionesHorario: OpcionesHorario,
+    OpcionesHorarioLab: OpcionesHorarioLab,
+    TablaHorario: TablaHorario,
     TablaHorarioLab: TablaHorarioLab,
     SolicitarCita: SolicitarCita,
     SolicitudUser: SolicitudUser,
     DatosUserA: DatosUserA,
     Actualizar: Actualizar,
     DatosUser: DatosUser,
-    Eliminar: Eliminar    
+    Eliminar: Eliminar
 }
