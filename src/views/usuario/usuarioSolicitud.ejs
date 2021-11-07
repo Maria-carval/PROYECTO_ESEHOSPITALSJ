@@ -587,7 +587,7 @@
         </div>
     </div>
 </body>
-<!-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script> -->
+
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
@@ -640,7 +640,7 @@
             url: '/DatosUsuario',
             data: { idC: id }, //Se pasa el $id
             success: function (datos) {
-                console.log('NOJODA');
+               
                 console.log(datos)
                 document.getElementById('Id').value = datos[0].idcitas;
                 document.getElementById('email').value = datos[0].Correo;

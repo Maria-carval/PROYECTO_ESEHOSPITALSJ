@@ -3,8 +3,8 @@ import gmailController from "../controllers/gmailController";
 
 // AGENDA MEDICINA GENERAL //
 let crearAgendaMed = async (horarioMed) => {
-    var Intervalo = "15";
-    //console.log(horarioMed);
+    var Intervalo = "10";
+    
     if (horarioMed.horaInicio !== '' && horarioMed.horaFin !== '') {
         var variablesHorario = {
             Doctor: horarioMed.Medico,
@@ -77,8 +77,7 @@ let AgregarHorariosMedInterval = (Dia, Medico, especialidad, horaInicio, IdHorar
 
 // AGENDA ODONTOLOGÍA //
 let crearAgendaOdont = async (horarioOdont) => {
-    var Intervalo = "15";
-    //console.log(horarioOdont);
+    var Intervalo = "10";
     if (horarioOdont.horaInicio !== '' && horarioOdont.horaFin !== '') {
         var variablesHorario1 = {
             Doctor: horarioOdont.Medico,
@@ -151,8 +150,8 @@ let AgregarHorariosOdontInterval = (Dia, Medico, especialidad, horaInicio, IdHor
 
 // AGENDA LABORATORIOS //
 let crearAgendaLab = async (horarioLab) => {
-    var Intervalo = "15";
-    //console.log(horarioMed);
+    var Intervalo = "10";
+    
     if (horarioLab.horaInicio !== '' && horarioLab.horaFin !== '') {
         var variablesHorarioLab = {
             Examen: horarioLab.Examen,

@@ -135,7 +135,7 @@ let Aceptadas = (req, res) => {
 };
 
 let SolicitudesIndivial = (req, res) => {
-    //const id = req.params.idcitas;
+    
     var id = req.body.idC;
     if (req.session.admin) {
         connection.query(`SELECT idcitas, Nombres, Apellidos, Correo, Celular, Tipo_Documento, 
@@ -216,7 +216,6 @@ let Rechazar = async (req, res) => {
 
     await adminService.EmailRechazar(variablesRechazar);
 
-    console.log("dios")
     connection.query('DELETE FROM citas WHERE idcitas = ?', [id], (err, datos) => {
         if (err) {
             res.json(err);

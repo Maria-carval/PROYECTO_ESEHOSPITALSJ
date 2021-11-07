@@ -248,7 +248,7 @@ let SolicitudUser = (req, res) => {
     if (req.session.user) {
         var user = req.session.context;
         var id = user.idusuario;
-        console.log('whyyyyy')
+        
         connection.query(`SELECT idcitas, Nombres, Apellidos, Correo, Celular, Tipo_Documento, Numero_Documento,
         Afiliacion, Regimen, Entidad, Solicitud, Especialidad, Doctor, Examen, DATE_FORMAT(Fecha, "%Y-%m-%d") Fecha, 
         Hora, DATE_FORMAT(Hora, "%I:%i:%p") Hora12, Orden, Descripcion, Estado_cita FROM citas WHERE idusuario = ?`, [id], (err, data) => {
@@ -257,8 +257,7 @@ let SolicitudUser = (req, res) => {
             }
             console.log(data);
             res.render('./usuario/usuarioSolicitud.ejs', {
-                data: data,
-                //user: req.session.context               
+                data: data                            
             });
         });
     } else {
@@ -269,7 +268,7 @@ let SolicitudUser = (req, res) => {
 };
 
 let DatosUserA = (req, res) => {
-    //const id = req.params.idcitas;
+   
     var id = req.body.idC;
     if (req.session.user) {
         connection.query(`SELECT idcitas, Nombres, Apellidos, Correo, Celular, Tipo_Documento, 
@@ -403,8 +402,7 @@ let Actualizar = async (req, res) => {
     }
 };
 
-let DatosUser = (req, res) => {
-    //const id = req.params.idcitas;
+let DatosUser = (req, res) => {  
     var id = req.body.idC;
     if (req.session.user) {
         connection.query(`SELECT idcitas, Nombres, Apellidos, Correo, Celular, Tipo_Documento, 
@@ -454,7 +452,6 @@ let Eliminar = async (req, res) => {
         console.log('No envía correo')
     }
 
-    console.log("dios")
     connection.query('DELETE FROM citas WHERE idcitas = ?', [id], (err, datos) => {
         if (err) {
             res.json(err);
