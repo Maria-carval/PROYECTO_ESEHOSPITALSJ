@@ -19,13 +19,13 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
         </script>
-   
+
     <!-- ===== SWEETALERT2 ===== -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.all.min.js"></script>
 
     <!-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script> -->
-    
-   
+
+
     <!-- bootstrap5 dataTables css cdn -->
 
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap5.min.css" />
@@ -33,8 +33,8 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.2.0/css/fixedHeader.bootstrap5.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap5.min.css" />
 
-     <!-- ===== DATEPICKER ===== -->
-     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <!-- ===== DATEPICKER ===== -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
     <!-- ===== CSS ===== -->
     <link rel="stylesheet" href="/user.css">
@@ -44,7 +44,8 @@
 
 <body>
     <div class="container-fluid">
-        <nav class="navbar navbar-expand-md navbar-light bg-success bg-opacity-10 border-3 border-bottom border-success">
+        <nav
+            class="navbar navbar-expand-md navbar-light bg-success bg-opacity-10 border-3 border-bottom border-success">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">
                     <img src="/images/logo.png" alt="" width="40" height="30" class="d-inline-block align-text-top">
@@ -196,123 +197,272 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header" id="header">
-                        <h5 class="modal-title" style="justify-content: center;">Actualización de datos personales</h5>
+                        <h5 class="modal-title" style="justify-content: center;" id="titulopersonal">Actualización:
+                            datos personales</h5>
+                        <h5 class="modal-title" style="display: none;" id="titulocita">Actualización: información médica
+                        </h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <section class="section">
-                            <div class="row g-0">
-                                <div class="col-md-6">
-                                    <img src="/images/personalinfo.png" class="img-fluid rounded-start" alt="">
-                                </div>
-                                <div class="col-md-6">
-                                    <div style="display: none;">
+                        <div id="infopersonal">
+                            <section class="section">
+                                <div class="row g-0">
+                                    <div class="col-md-6">
+                                        <img src="/images/personalinfo.png" class="img-fluid rounded-start" alt="">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div style="display: none;">
+                                            <div class="form-input">
+                                                <label for="Id" class="form-label">Id del paciente</label>
+                                                <input type="text" class="form-control" id="Id" name="Id"
+                                                    autocomplete="off">
+                                            </div>
+                                        </div>
                                         <div class="form-input">
-                                            <label for="Id" class="form-label">Id del paciente</label>
-                                            <input type="text" class="form-control" id="Id" name="Id"
-                                                autocomplete="off">
+                                            <label for="Name" class="form-label">Nombres del paciente <label
+                                                    class="redText">*</label></label>
+                                            <input type="text" class="form-control" id="Name" name="Name"
+                                                placeholder="Ingresa los nombres" autocomplete="off">
+                                        </div>
+                                        <div class="form-input">
+                                            <label for="Lastname" class="form-label">Apellidos del
+                                                paciente <label class="redText">*</label></label>
+                                            <input type="text" class="form-control" id="Lastname" name="Lastname"
+                                                placeholder="Ingresa los apellidos">
                                         </div>
                                     </div>
-                                    <div class="form-input">
-                                        <label for="Name" class="form-label">Nombres del paciente <label
-                                                class="redText">*</label></label>
-                                        <input type="text" class="form-control" id="Name" name="Name"
-                                            placeholder="Ingresa los nombres" autocomplete="off">
-                                    </div>
-                                    <div class="form-input">
-                                        <label for="Lastname" class="form-label">Apellidos del
-                                            paciente <label class="redText">*</label></label>
-                                        <input type="text" class="form-control" id="Lastname" name="Lastname"
-                                            placeholder="Ingresa los apellidos">
-                                    </div>
                                 </div>
-                            </div>
-                        </section>
+                            </section>
 
-                        <section class="section">
-                            <div class="row g-0">
-                                <div class="col-md-6">
-                                    <img src="/images/email.png" class="img-fluid rounded-start" alt="">
+                            <section class="section">
+                                <div class="row g-0">
+                                    <div class="col-md-6">
+                                        <img src="/images/email.png" class="img-fluid rounded-start" alt="">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-input">
+                                            <label for="email" class="form-label">Correo
+                                                electrónico <label class="redText">*</label></label>
+                                            <input type="email" class="form-control" id="email" name="email"
+                                                placeholder="Ingresa el correo electrónico">
+                                        </div>
+                                        <div class="form-input">
+                                            <label for="number" class="form-label">Número de celular<label
+                                                    class="redText">*</label></label>
+                                            <input type="number" class="form-control" id="number" name="number"
+                                                placeholder="Sin puntos ni comas ni guiones" min="0" step="1"
+                                                oninput="validity.valid||(value='');">
+                                        </div>
+                                        <div class="form-input" id="askdiv">
+                                            <label for="ask" class="form-label">¿El tipo de documento es el mismo?<label
+                                                    class="redText">*</label></label>
+                                            <select class="form-select" aria-label="Default select example"
+                                                style="margin-right: 20px;" id="ask" name="ask">
+                                                <option value="0">Seleccione</option>
+                                                <option value="1">Si
+                                                </option>
+                                                <option value="2">No
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-input">
-                                        <label for="email" class="form-label">Correo
-                                            electrónico <label class="redText">*</label></label>
-                                        <input type="email" class="form-control" id="email" name="email"
-                                            placeholder="Ingresa el correo electrónico">
+                            </section>
+                            <section class="section">
+                                <div class="row g-0">
+                                    <div class="col-md-6">
+                                        <img src="/images/order.png" class="img-fluid rounded-start" alt="">
                                     </div>
-                                    <div class="form-input">
-                                        <label for="number" class="form-label">Número de celular<label
-                                                class="redText">*</label></label>
-                                        <input type="number" class="form-control" id="number" name="number"
-                                            placeholder="Sin puntos ni comas ni guiones" min="0" step="1"
-                                            oninput="validity.valid||(value='');">
+                                    <div class="col-md-6">
+                                        <div class="form-input" id="doc" style="display: none;">
+                                            <label for="Tipo" class="form-label">Tipo de
+                                                documento<label class="redText">*</label></label>
+                                            <select class="form-select" aria-label="Default select example"
+                                                style="margin-right: 20px;" id="Tipo" name="Tipo">
+                                                <option value="0">Seleccionar tipo de documento</option>
+                                                <option value="Cédula de ciudadanía">Cédula de ciudadanía
+                                                </option>
+                                                <option value="Cédula de extranjería">Cédula de extranjería
+                                                </option>
+                                                <option value="NIT">NIT</option>
+                                                <option value="Tarjeta de identitidad">Tarjeta de
+                                                    identitidad</option>
+                                                <option value="Pasaporte">Pasaporte</option>
+                                                <option value="Registro civil">Registro civil</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-input">
+                                            <label for="Cedula" class="form-label">N° de identificación del
+                                                paciente <label class="redText">*</label></label>
+                                            <input type="number" class="form-control" id="Cedula" name="Cedula"
+                                                placeholder="Sin puntos ni comas ni guiones" min="0" step="1"
+                                                oninput="validity.valid||(value='');">
+                                        </div>
+                                        <div class="form-input">
+                                            <label for="orden" class="form-label">Digite número
+                                                de la orden<label class="redText">*</label></label>
+                                            <input type="number" class="form-control" id="orden" name="orden"
+                                                placeholder="Sin puntos ni comas ni guiones" min="0" step="1"
+                                                oninput="validity.valid||(value='');">
+                                        </div>
+                                        <div class="form-input" id="askdivf">
+                                            <label for="asktipo" class="form-label">¿Desea conservar la información de
+                                                la
+                                                cita?<label class="redText">*</label></label>
+                                            <select class="form-select" aria-label="Default select example"
+                                                style="margin-right: 20px;" id="asktipo" name="asktipo">
+                                                <option value="0">Seleccione</option>
+                                                <option value="1">Si
+                                                </option>
+                                                <option value="2">No
+                                                </option>
+                                            </select>
+                                        </div>
                                     </div>
-                                    <div class="form-input" id="askdiv">
-                                        <label for="ask" class="form-label">¿El tipo de documento es el mismo?<label
-                                                class="redText">*</label></label>
-                                        <select class="form-select" aria-label="Default select example"
-                                            style="margin-right: 20px;" id="ask" name="ask">
-                                            <option value="0">Seleccione</option>
-                                            <option value="1">Si
-                                            </option>
-                                            <option value="2">No
-                                            </option>
-                                        </select>
+                                </div>
+                            </section>
+                        </div>
+                        <div id="infocita" style="display: none;">
+                            <section class="section">
+                                <div class="row g-0">
+                                    <div class="col-md-6" id="divImage" style="display: none;">
+                                        <img src="/images/cita.png" class="img-fluid rounded-start" alt="">
+                                        <figcaption class="figure-caption"><strong>NOTA:</strong> Antes de escoger la
+                                            fecha
+                                            y hora debe haber seleccionado el tipo de solicitud. Así, si es cita médica,
+                                            debe seleccionar la especialidad y el doctor. Si es examen de laboratorio,
+                                            debe
+                                            seleccionar el tipo de examen.</figcaption>
                                     </div>
-                                </div>                                
+                                    <div class="col-md-6">
+                                        <div class="form-input" id="divTipo" style="display: none;">
+                                            <label for="TipoCita" class="form-label">Tipo de solicitud
+                                                <label class="redText">*</label></label>
+                                            <select class="form-select" aria-label="Default select example"
+                                                id="TipoCita" name="TipoCita"
+                                                onchange="vacio(), consulta(), consultaLab()" onclick="vaciarF()">
+                                                <option value="0">Seleccionar tipo de solicitud</option>
+                                                <option value="Cita médica">Cita médica</option>
+                                                <option value="Examen de laboratorio">Examen de laboratorio</option>
+                                            </select>
+                                        </div>
+                                        <div id="especialidad" style="display: none;">
+                                            <div class="form-input">
+                                                <label for="Cita" class="form-label">Especialidad
+                                                    <label class="redText">*</label></label>
+                                                <select class="form-select" aria-label="Default select example"
+                                                    id="opciones" name="opciones"
+                                                    onchange="doctors('opciones','Doctores'), vacio()"
+                                                    onclick="vaciarF()">
+                                                    <option value="0">Seleccionar especialidad
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div id="doctor" style="display: none;">
+                                            <div class="form-input" style=" margin-bottom: 20px;">
+                                                <label for="Cita" class="form-label">Doctor<label
+                                                        class="redText">*</label></label>
+                                                <div class="parent">
+                                                    <div class="child">
+                                                        <select class="form-select" aria-label="Default select example"
+                                                            id="Doctores" name="Doctores" onclick="vacioF()"
+                                                            onchange="vaciar()">
+                                                            <option value="0">Seleccionar doctor
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="exameneslab" style="display: none;">
+                                            <div class="form-input">
+                                                <label for="Lab" class="form-label">Exámenes de laboratorio
+                                                    <label class="redText">*</label></label>
+                                                <div class="parent2">
+                                                    <div class="child2">
+                                                        <select class="form-select" aria-label="Default select example"
+                                                            id="Lab" name="Lab" onchange="consultLab(), vacio()"
+                                                            onclick="vaciarF()">
+                                                            <option value="0">Seleccionar tipo de examen
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                            <div class="col-md-12" id="tablacita"
+                                style="overflow-y: scroll; margin-top: 50px; display: none;">
+                                <table class="table table-hover table-bordered" id="tabla">
+                                    <thead>
+                                        <tr>
+                                            <th>Doctor</th>
+                                            <th>Días disponibles</th>
+                                            <th>Horarios disponibles</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="myTable">
+                                    </tbody>
+                                </table>
                             </div>
-                        </section>
-                        <section class="section">
-                            <div class="row g-0">
-                                <div class="col-md-6">
-                                    <img src="/images/order.png" class="img-fluid rounded-start" alt="">
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-input" id="doc" style="display: none;">
-                                        <label for="Tipo" class="form-label">Tipo de
-                                            documento<label class="redText">*</label></label>
-                                        <select class="form-select" aria-label="Default select example"
-                                            style="margin-right: 20px;" id="Tipo" name="Tipo">
-                                            <option value="0">Seleccionar tipo de documento</option>
-                                            <option value="Cédula de ciudadanía">Cédula de ciudadanía
-                                            </option>
-                                            <option value="Cédula de extranjería">Cédula de extranjería
-                                            </option>
-                                            <option value="NIT">NIT</option>
-                                            <option value="Tarjeta de identitidad">Tarjeta de
-                                                identitidad</option>
-                                            <option value="Pasaporte">Pasaporte</option>
-                                            <option value="Registro civil">Registro civil</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-input">
-                                        <label for="Cedula" class="form-label">N° de identificación del
-                                            paciente <label class="redText">*</label></label>
-                                        <input type="number" class="form-control" id="Cedula" name="Cedula"
-                                            placeholder="Sin puntos ni comas ni guiones" min="0" step="1"
-                                            oninput="validity.valid||(value='');">
-                                    </div>
-                                    <div class="form-input">
-                                        <label for="orden" class="form-label">Digite número
-                                            de la orden<label class="redText">*</label></label>
-                                        <input type="number" class="form-control" id="orden" name="orden"
-                                            placeholder="Sin puntos ni comas ni guiones" min="0" step="1"
-                                            oninput="validity.valid||(value='');">
-                                    </div>
-                                    <!-- <div class="form-input" style="margin-top: 20px;">
+
+                            <div class="col-md-12" id="tablalab"
+                                style="overflow-y: scroll; margin-top: 50px; display: none;">
+                                <table class="table table-hover table-bordered" id="tabla">
+                                    <thead>
+                                        <tr>
+                                            <th>Examen</th>
+                                            <th>Días disponibles</th>
+                                            <th>Horarios disponibles</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="myTableLab">
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 col-sm-6" id="divfecha" style="display: none;">
+                                    <div class="form-input" style="margin-top: 20px;">
                                         <label for="fecha" class="form-label">Fecha de la
                                             cita
                                             <label class="redText">*</label></label>
                                         <input class="form-control" id="fecha" name="fecha"
-                                            placeholder="Seleccionar fecha" autocomplete="off"
-                                            onkeypress="return false" readonly>
-                                    </div> -->
+                                            placeholder="Seleccionar fecha" autocomplete="off" onkeypress="return false"
+                                            readonly>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-6" id="divhora" style="display: none;">
+                                    <div class="form-input" style="margin-top: 20px;">
+                                        <label for="Horario" class="form-label">Horas
+                                            disponibles
+                                            <label class="redText">*</label></label>
+                                        <select class="form-select" aria-label="Default select example" id="Horario"
+                                            name="Horario">
+                                            <option value="0">Seleccionar la hora</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
+                        </div>
+                        <section style="margin-top: 20px;">
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination justify-content-end">
+                                    <div id="divant" style="display: none;">
+                                        <li class="page-item"><a class="page-link" href="#" id="anterior">Anterior</a>
+                                        </li>
+                                    </div>
+                                    <div id="divdesp" style="display: none;">
+                                        <li class="page-item"><a class="page-link" href="#" id="siguiente">Siguiente</a>
+                                        </li>
+                                    </div>
+                                </ul>
+                            </nav>
                         </section>
                     </div>
-                    <div class="modal-footer" id="footer">
+                    <div class="modal-footer" id="footer" style="display: none;">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                         <button type="button" id="btnActualizar" class="btn btn-warning">Actualizar datos</button>
                     </div>
@@ -321,92 +471,91 @@
         </div>
 
         <div class="modal" tabindex="-1" id="EliminarModal">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-body">
-                            <div class="view overlay">
-                                <img class="card-img-top" src="/images/delete.png" alt="">
-                                <a href="#">
-                                    <div class="mask rgba-white-slight"></div>
-                                </a>
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="view overlay">
+                            <img class="card-img-top" src="/images/delete.png" alt="">
+                            <a href="#">
+                                <div class="mask rgba-white-slight"></div>
+                            </a>
+                        </div>
+                        <div style="display: none;">
+                            <div class="form-input">
+                                <label for="Id" class="form-label">Id del paciente</label>
+                                <input type="text" class="form-control" id="Id" name="Id" autocomplete="off">
                             </div>
-                            <div style="display: none;">
-                                <div class="form-input">
-                                    <label for="Id" class="form-label">Id del paciente</label>
-                                    <input type="text" class="form-control" id="Id" name="Id" autocomplete="off">
-                                </div>
-                                <div class="form-input">
-                                    <label for="email" class="form-label">Correo</label>
-                                    <input type="text" class="form-control" id="email" name="email" autocomplete="off">
-                                </div>
-                                <div class="form-input">
-                                    <label for="Name" class="form-label">Nombres del paciente</label>
-                                    <input type="text" class="form-control" id="Name" name="Name" autocomplete="off">
-                                </div>
-                                <div class="form-input">
-                                    <label for="Lastname" class="form-label">Apellidos del paciente</label>
-                                    <input type="text" class="form-control" id="Lastname" name="Lastname"
-                                        autocomplete="off">
-                                </div>
-                                <div class="form-input">
-                                    <label for="TipoCita" class="form-label">Tipo de solicitud</label>
-                                    <input type="text" class="form-control" id="TipoCita" name="TipoCita"
-                                        autocomplete="off">
-                                </div>
-                                <div class="form-input">
-                                    <label for="opciones" class="form-label">Especialidad</label>
-                                    <input type="text" class="form-control" id="opciones" name="opciones"
-                                        autocomplete="off">
-                                </div>
-                                <div class="form-input">
-                                    <label for="Doctores" class="form-label">Doctor</label>
-                                    <input type="text" class="form-control" id="Doctores" name="Doctores"
-                                        autocomplete="off">
-                                </div>
-                                <div class="form-input">
-                                    <label for="Lab" class="form-label">Exámen</label>
-                                    <input type="text" class="form-control" id="Lab" name="Lab" autocomplete="off">
-                                </div>
-                                <div class="form-input">
-                                    <label for="mes" class="form-label">Mes</label>
-                                    <input type="text" class="form-control" id="mes" name="mes" autocomplete="off">
-                                </div>
-                                <div class="form-input">
-                                    <label for="dia" class="form-label">Dia</label>
-                                    <input type="text" class="form-control" id="dia" name="dia" autocomplete="off">
-                                </div>
-                                <div class="form-input">
-                                    <label for="año" class="form-label">Año</label>
-                                    <input type="text" class="form-control" id="año" name="año" autocomplete="off">
-                                </div>
-                                <div class="form-input">
-                                    <label for="hora" class="form-label">Hora</label>
-                                    <input type="text" class="form-control" id="hora" name="hora" autocomplete="off">
-                                </div>
-                                <div class="form-input">
-                                    <label for="estado" class="form-label">Estado</label>
-                                    <input type="text" class="form-control" id="estado" name="estado"
-                                        autocomplete="off">
-                                </div>
+                            <div class="form-input">
+                                <label for="email" class="form-label">Correo</label>
+                                <input type="text" class="form-control" id="email" name="email" autocomplete="off">
                             </div>
-                            <div class="form-input" style="margin-top: 20px;">
-                                <h1 class="display-6" style="text-align: center;">¿Seguro/a que desea eliminar esta
-                                    cita?
-                                </h1>
+                            <div class="form-input">
+                                <label for="Name" class="form-label">Nombres del paciente</label>
+                                <input type="text" class="form-control" id="Name" name="Name" autocomplete="off">
+                            </div>
+                            <div class="form-input">
+                                <label for="Lastname" class="form-label">Apellidos del paciente</label>
+                                <input type="text" class="form-control" id="Lastname" name="Lastname"
+                                    autocomplete="off">
+                            </div>
+                            <div class="form-input">
+                                <label for="TipoCita" class="form-label">Tipo de solicitud</label>
+                                <input type="text" class="form-control" id="TipoCita" name="TipoCita"
+                                    autocomplete="off">
+                            </div>
+                            <div class="form-input">
+                                <label for="opciones" class="form-label">Especialidad</label>
+                                <input type="text" class="form-control" id="opciones" name="opciones"
+                                    autocomplete="off">
+                            </div>
+                            <div class="form-input">
+                                <label for="Doctores" class="form-label">Doctor</label>
+                                <input type="text" class="form-control" id="Doctores" name="Doctores"
+                                    autocomplete="off">
+                            </div>
+                            <div class="form-input">
+                                <label for="Lab" class="form-label">Exámen</label>
+                                <input type="text" class="form-control" id="Lab" name="Lab" autocomplete="off">
+                            </div>
+                            <div class="form-input">
+                                <label for="mes" class="form-label">Mes</label>
+                                <input type="text" class="form-control" id="mes" name="mes" autocomplete="off">
+                            </div>
+                            <div class="form-input">
+                                <label for="dia" class="form-label">Dia</label>
+                                <input type="text" class="form-control" id="dia" name="dia" autocomplete="off">
+                            </div>
+                            <div class="form-input">
+                                <label for="año" class="form-label">Año</label>
+                                <input type="text" class="form-control" id="año" name="año" autocomplete="off">
+                            </div>
+                            <div class="form-input">
+                                <label for="hora" class="form-label">Hora</label>
+                                <input type="text" class="form-control" id="hora" name="hora" autocomplete="off">
+                            </div>
+                            <div class="form-input">
+                                <label for="estado" class="form-label">Estado</label>
+                                <input type="text" class="form-control" id="estado" name="estado" autocomplete="off">
                             </div>
                         </div>
-                        <div class="modal-footer" id="footerDelete">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="button" id="btnEliminar" class="btn btn-danger">Confirmar</button>
+                        <div class="form-input" style="margin-top: 20px;">
+                            <h1 class="display-6" style="text-align: center;">¿Seguro/a que desea eliminar esta
+                                cita?
+                            </h1>
                         </div>
                     </div>
+                    <div class="modal-footer" id="footerDelete">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" id="btnEliminar" class="btn btn-danger">Confirmar</button>
+                    </div>
                 </div>
+            </div>
         </div>
-    </div>    
+    </div>
 </body>
 <!-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script> -->
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"></script>
 <script src="https://cdn.datatables.net/fixedheader/3.2.0/js/dataTables.fixedHeader.min.js"></script>
@@ -591,6 +740,168 @@
         });
     });
 
+    $(document).ready(function () {
+        $('#asktipo').on('change', function () {
+            if (this.value == '1') {
+                $("#divTipo").hide();
+                $("#divImage").hide();
+                $("#footer").show();
+                $("#divdesp").hide();
+            }
+            else if (this.value == '2') {
+                $("#divTipo").show();
+                $("#divImage").show();
+                $("#footer").hide();
+                $("#divdesp").show();
+            } else {
+                $("#divTipo").hide();
+                $("#divImage").hide();
+                $("#footer").hide();
+                $("#divdesp").hide();
+            }
+        });
+    });
+
+    $(document).ready(function () {
+        $('#siguiente').on('click', function () {
+            $("#infocita").show();
+            $("#footer").show();
+            $("#divant").show();
+            $("#titulocita").show();
+            $("#infopersonal").hide();
+            $("#divdesp").hide();
+            $("#titulopersonal").hide();
+        });
+    });
+
+    $(document).ready(function () {
+        $('#anterior').on('click', function () {
+            $("#infocita").hide();
+            $("#footer").show();
+            $("#divdesp").show();
+            $("#infopersonal").show();
+            $("#titulopersonal").show();
+            $("#titulocita").hide();
+            $("#divant").hide();
+        });
+    });
+
+    $(document).ready(function () {
+        $('#TipoCita').on('change', function () {
+            if (this.value == 'Cita médica') {
+                $("#especialidad").show();
+                $("#doctor").show();
+                $("#exameneslab").hide();
+                $("#tablacita").show();
+                $("#tablalab").hide();
+                $("#divfecha").show();
+                $("#divhora").show();
+            } else if (this.value == 'Examen de laboratorio') {
+                $("#exameneslab").show();
+                $("#tablalab").show();
+                $("#especialidad").hide();
+                $("#doctor").hide();
+                $("#tablacita").hide();
+                $("#divfecha").show();
+                $("#divhora").show();
+            } else {
+                $("#especialidad").hide();
+                $("#doctor").hide();
+                $("#exameneslab").hide();
+                $("#tablacita").hide();
+                $("#tablalab").hide();
+                $("#divfecha").hide();
+                $("#divhora").hide();
+            }
+        });
+    });
+
+    //+++++++++++ CARGA A LOS SELECT CON LAS OPCIONES SEGÚN LA ESPECIALIDAD +++++++++++++++++//
+    async function consulta() {
+        var variable = document.getElementById('opciones').value;
+        const consulta = {
+            con: variable
+        };
+        const options = {
+            method: "POST",
+            body: JSON.stringify(consulta),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        };
+        const response = await fetch('/Especialidad', options);
+        datos = await response.json();
+        select = document.getElementById('opciones');
+        $("#opciones").empty();
+        for (var i = 0; i < datos.length; i++) {
+            var opt = document.createElement('option');
+            opt.value = datos[i].Especialidad;
+            opt.innerHTML = datos[i].Especialidad;
+            select.add(opt);
+        }
+        $("#opciones").prepend(
+            '<option selected="true" value="0">Seleccionar especialidad</option>');
+        return false;
+    }
+
+    //+++++++++++ CARGA A LOS SELECT CON LAS OPCIONES SEGÚN LOS EXÁMENES DE LABORATORIO +++++++++++++++++//
+    async function consultaLab() {
+        var variable = document.getElementById('Lab').value;
+        const consulta = {
+            con: variable
+        };
+        const options = {
+            method: "POST",
+            body: JSON.stringify(consulta),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        };
+        const response = await fetch('/ListaExamenesLab', options);
+        datos = await response.json();
+        select = document.getElementById('Lab');
+        $("#Lab").empty();
+        for (var i = 0; i < datos.length; i++) {
+            var opt = document.createElement('option');
+            opt.value = datos[i].Examen;
+            opt.innerHTML = datos[i].Examen;
+            select.add(opt);
+        }
+        $("#Lab").prepend(
+            '<option selected="true" value="0">Seleccionar tipo de examen</option>');
+        return false;
+    }
+
+    async function doctors(s1, s2) {
+        var variable = document.getElementById('opciones').value;
+        const consulta2 = {
+            con: variable
+        };
+        const options = {
+            method: "POST",
+            body: JSON.stringify(consulta),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        };
+        const response = await fetch('/Doctor', options);
+        datos = await response.json();
+        var s1 = document.getElementById(s1);
+        var s2 = document.getElementById(s2);
+        s2.innerHTML = "";
+        select = document.getElementById('Doctores');
+        for (var i = 0; i < datos.length; i++) {
+            if (s1.value == datos[i].Especialidad) {
+                var opt = document.createElement('option');
+                opt.value = datos[i].Doctor;
+                opt.innerHTML = datos[i].Doctor;
+                select.add(opt);
+            }
+        }
+        $("#Doctores").prepend('<option selected="true" value="0">Seleccionar doctor</option>');
+    }
+
+
     var date = new Date();
     var year = date.getFullYear();
     console.log(year)
@@ -642,80 +953,200 @@
             ],
             dayNamesMin: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
             beforeShowDay: nationalDays,
-            // onSelect: async function (date) {
-            //     console.log(date)
-            //     var variable = document.getElementById('fecha').value;
-            //     var Especialidad = document.getElementById('opciones').value;
-            //     var Doctor = document.getElementById('Doctores').value;
-            //     var Laboratorio = document.getElementById('Lab').value;
+            onSelect: async function (date) {
+                console.log(date)
+                var variable = document.getElementById('fecha').value;
+                var Especialidad = document.getElementById('opciones').value;
+                var Doctor = document.getElementById('Doctores').value;
+                var Laboratorio = document.getElementById('Lab').value;
 
-            //     var tipo = document.getElementById('TipoCita').value;
+                var tipo = document.getElementById('TipoCita').value;
 
-            //     if (tipo == 'Cita médica') {
-            //         const consulta = {
-            //             variable: variable,
-            //             Especialidad: Especialidad,
-            //             Doctor: Doctor,
-            //             date: date
-            //         };
-            //         const options = {
-            //             method: "POST",
-            //             body: JSON.stringify(consulta),
-            //             headers: {
-            //                 "Content-Type": "application/json"
-            //             }
-            //         };
-            //         var response = await fetch('/OpcionesHorario', options);
-            //         console.log(response);
-            //         var hora = await response.json();
-            //         console.log(hora);
+                if (tipo == 'Cita médica') {
+                    const consulta = {
+                        variable: variable,
+                        Especialidad: Especialidad,
+                        Doctor: Doctor,
+                        date: date
+                    };
+                    const options = {
+                        method: "POST",
+                        body: JSON.stringify(consulta),
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    };
+                    var response = await fetch('/OpcionesHorario', options);
+                    console.log(response);
+                    var hora = await response.json();
+                    console.log(hora);
 
-            //         select = document.getElementById('Horario');
-            //         $("#Horario").empty();
-            //         for (var i = 0; i < hora.length; i++) {
-            //             var opt = document.createElement('option');
-            //             opt.value = hora[i];
-            //             opt.innerHTML = hora[i];
-            //             select.add(opt);
-            //         }
-            //         $("#Horario").prepend(
-            //             '<option selected="true" value="0">Seleccionar hora</option>');
-            //         return false;
-            //     } else if (tipo == 'Examen de laboratorio') {
-            //         const consulta = {
-            //             variable: variable,
-            //             Laboratorio: Laboratorio,
-            //             date: date
-            //         };
-            //         const options = {
-            //             method: "POST",
-            //             body: JSON.stringify(consulta),
-            //             headers: {
-            //                 "Content-Type": "application/json"
-            //             }
-            //         };
-            //         var response = await fetch('/OpcionesHorarioLab', options);
-            //         console.log(response);
-            //         var hora = await response.json();
-            //         console.log(hora);
+                    select = document.getElementById('Horario');
+                    $("#Horario").empty();
+                    for (var i = 0; i < hora.length; i++) {
+                        var opt = document.createElement('option');
+                        opt.value = hora[i];
+                        opt.innerHTML = hora[i];
+                        select.add(opt);
+                    }
+                    $("#Horario").prepend(
+                        '<option selected="true" value="0">Seleccionar hora</option>');
+                    return false;
+                } else if (tipo == 'Examen de laboratorio') {
+                    const consulta = {
+                        variable: variable,
+                        Laboratorio: Laboratorio,
+                        date: date
+                    };
+                    const options = {
+                        method: "POST",
+                        body: JSON.stringify(consulta),
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    };
+                    var response = await fetch('/OpcionesHorarioLab', options);
+                    console.log(response);
+                    var hora = await response.json();
+                    console.log(hora);
 
-            //         select = document.getElementById('Horario');
-            //         $("#Horario").empty();
-            //         for (var i = 0; i < hora.length; i++) {
-            //             var opt = document.createElement('option');
-            //             opt.value = hora[i];
-            //             opt.innerHTML = hora[i];
-            //             select.add(opt);
-            //         }
-            //         $("#Horario").prepend(
-            //             '<option selected="true" value="0">Seleccionar hora</option>');
-            //         return false;
-            //     }
+                    select = document.getElementById('Horario');
+                    $("#Horario").empty();
+                    for (var i = 0; i < hora.length; i++) {
+                        var opt = document.createElement('option');
+                        opt.value = hora[i];
+                        opt.innerHTML = hora[i];
+                        select.add(opt);
+                    }
+                    $("#Horario").prepend(
+                        '<option selected="true" value="0">Seleccionar hora</option>');
+                    return false;
+                }
 
 
-            // },
+            },
         })
     });
+
+    //LIMPIAR DATEPICKER Y TABLA DE HORARIOS//
+    function vaciarF() {
+        $('#fecha').val('').datepicker("refresh");
+        $("#Horario").empty();
+    }
+    function vacioF() {
+        $('#fecha').val('').datepicker("refresh");
+        $("#Horario").empty();
+    }
+    function vaciar() {
+        document.getElementById('myTable').innerHTML = '';
+        document.getElementById('myTableLab').innerHTML = '';
+    }
+    function vacio() {
+        $("#Doctores").empty();
+        $("#Doctores").prepend('<option selected="true" value="0">Seleccionar doctor</option>');
+        document.getElementById('myTable').innerHTML = '';
+        document.getElementById('myTableLab').innerHTML = '';
+    }
+
+    const parent = document.querySelector(".parent");
+    parent.addEventListener("change", function (e) {
+        const child = e.target.matches(".child, .child *");
+        if (child) { // If child is click
+
+            consult();
+
+        }
+    });
+    var data = [];
+    async function consult() {
+        var variable = document.getElementById('Doctores').value;
+        const consulta = {
+            con: variable
+        };
+        const options = {
+            method: "POST",
+            body: JSON.stringify(consulta),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        };
+        const response = await fetch('/InfoTabla', options);
+        data = await response.json();
+        console.log(data)
+        buildTable()
+    }
+    function buildTable() {
+        // vaciar();
+        // vacio();         
+        var table = document.getElementById('myTable');
+        select = document.getElementById('Doctores');
+        for (var i = 0; i < data.length; i++) {
+            if (select.value == data[i].Doctor) {
+                var row = `<tr>
+                            <td>                              
+                                ${data[i].Doctor}                                
+                            </td> 
+                            <td>                              
+                                ${data[i].Dia}                                
+                            </td> 							
+                			<td>                              
+                                ${data[i].Hora_Inicio} - ${data[i].Hora_Fin}                                
+                            </td>                                                          
+                	  </tr>`
+                table.innerHTML += row
+            }
+        }
+    }
+
+    const parent2 = document.querySelector(".parent2");
+    parent.addEventListener("change", function (e) {
+        const child2 = e.target.matches(".child2, .child2 *");
+        if (child2) { // If child is click
+
+            consultLab();
+
+        }
+    });
+    var data = [];
+    async function consultLab() {
+        var variable = document.getElementById('Lab').value;
+        const consulta = {
+            con: variable
+        };
+        const options = {
+            method: "POST",
+            body: JSON.stringify(consulta),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        };
+        const response = await fetch('/InfoTablaLab', options);
+        data = await response.json();
+        console.log(data)
+        buildTableLab()
+    }
+    function buildTableLab() {
+        // vaciar();
+        // vacio();         
+        var table = document.getElementById('myTableLab');
+        select = document.getElementById('Lab');
+        for (var i = 0; i < data.length; i++) {
+            if (select.value == data[i].Examen) {
+                var row = `<tr>
+                            <td>                              
+                                ${data[i].Examen}                                
+                            </td> 
+                            <td>                              
+                                ${data[i].Dia}                                
+                            </td> 							
+                			<td>                              
+                                ${data[i].HoraInicio} - ${data[i].HoraFin}                                
+                            </td>                                                          
+                	  </tr>`
+                table.innerHTML += row
+            }
+        }
+    }
 
 
     $('#btnActualizar').click(function () {
@@ -738,7 +1169,14 @@
             ask: $('#ask').val(),
             Tipo: $('#Tipo').val(),
             Cedula: $('#Cedula').val(),
-            orden: $('#orden').val()
+            orden: $('#orden').val(),
+            asktipo: $('#asktipo').val(),
+            TipoCita: $('#TipoCita').val(),
+            opciones: $('#opciones').val(),
+            Doctores: $('#Doctores').val(),
+            Laboratorio: $('#Lab').val(),
+            fecha: $('#fecha').val(),
+            Horario: $('#Horario').val(),
         };
         if (data.Name == "") {
             Swal.fire({
@@ -808,6 +1246,62 @@
             Swal.fire({
                 icon: 'error',
                 text: 'Debe escribir el número de la orden médica'
+            })
+            event.preventDefault();
+            return false;
+        }
+        if (data.asktipo == "0") {
+            Swal.fire({
+                icon: 'error',
+                text: 'Debe responder si la información de la solicitud es la misma o no'
+            })
+            event.preventDefault();
+            return false;
+        }
+        if (data.asktipo == "2" & data.TipoCita == "0") {
+            Swal.fire({
+                icon: 'error',
+                text: 'Debe seleccionar el tipo de solicitud'
+            })
+            event.preventDefault();
+            return false;
+        }
+        if (data.TipoCita == "Cita médica" & data.opciones == "0") {
+            Swal.fire({
+                icon: 'error',
+                text: 'Debe seleccionar la especialidad'
+            })
+            event.preventDefault();
+            return false;
+        }
+        if (data.TipoCita == "Cita médica" & data.Doctores == "0") {
+            Swal.fire({
+                icon: 'error',
+                text: 'Debe seleccionar el doctor'
+            })
+            event.preventDefault();
+            return false;
+        }
+        if (data.TipoCita == "Examen de laboratorio" & data.Laboratorio == "0") {
+            Swal.fire({
+                icon: 'error',
+                text: 'Debe seleccionar el tipo de examen'
+            })
+            event.preventDefault();
+            return false;
+        }
+        if (data.asktipo == "2" & data.fecha == "") {
+            Swal.fire({
+                icon: 'error',
+                text: 'Debe seleccionar la fecha'
+            })
+            event.preventDefault();
+            return false;
+        }
+        if (data.asktipo == "2" & data.Horario == "0") {
+            Swal.fire({
+                icon: 'error',
+                text: 'Debe seleccionar la hora'
             })
             event.preventDefault();
             return false;
