@@ -19,7 +19,7 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
         </script>
-    
+
     <!-- ===== SWEETALERT2 ===== -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.all.min.js"></script>
 
@@ -83,7 +83,7 @@
                                 <button type="button" class="btn btn-success" data-bs-toggle="modal"
                                     data-bs-target="#staticBackdropMed">
                                     Agendar
-                                </button>                              
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -105,9 +105,9 @@
                             </div>
                             <div class="card-footer text-center">
                                 <button type="button" class="btn btn-success" data-bs-toggle="modal"
-                                data-bs-target="#staticBackdropOdont">
-                                Agendar
-                            </button>
+                                    data-bs-target="#staticBackdropOdont">
+                                    Agendar
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -124,7 +124,8 @@
                                 <h5 class="card-title text-center">EXÁMENES DE LABORATORIO</h5>
                             </div>
                             <div class="card-body">
-                                <p class="card-text">A continuación podrá agregar la agenda de los exámenes de laboratorio que realiza el
+                                <p class="card-text">A continuación podrá agregar la agenda de los exámenes de
+                                    laboratorio que realiza el
                                     hospital.</p>
                             </div>
                             <div class="card-footer text-center">
@@ -165,7 +166,7 @@
                                     <option value="Martes">Martes</option>
                                     <option value="Miércoles">Miércoles</option>
                                     <option value="Jueves">Jueves</option>
-                                    <option value="Viernes">Viernes</option>                                 
+                                    <option value="Viernes">Viernes</option>
                                 </select>
                             </div>
                             <div class="w-100 d-none d-md-block"></div>
@@ -204,7 +205,8 @@
                     <p>A continuación podrá ingresar los horarios de los especialistas.</p>
                     <div class="col-12 col-sm-12" id="NameOdont">
                         <div class="form-input" style="margin-top: 20px;">
-                            <select class="form-select" aria-label="Default select example" id="Odontologo" name="Odontologo">
+                            <select class="form-select" aria-label="Default select example" id="Odontologo"
+                                name="Odontologo">
                                 <option value="0">Seleccionar odontólogo
                                 </option>
                             </select>
@@ -216,7 +218,7 @@
                                     <option value="Martes">Martes</option>
                                     <option value="Miércoles">Miércoles</option>
                                     <option value="Jueves">Jueves</option>
-                                    <option value="Viernes">Viernes</option>                                    
+                                    <option value="Viernes">Viernes</option>
                                 </select>
                             </div>
                             <div class="w-100 d-none d-md-block"></div>
@@ -267,7 +269,7 @@
                                     <option value="Martes">Martes</option>
                                     <option value="Miércoles">Miércoles</option>
                                     <option value="Jueves">Jueves</option>
-                                    <option value="Viernes">Viernes</option>                                 
+                                    <option value="Viernes">Viernes</option>
                                 </select>
                             </div>
                             <div class="w-100 d-none d-md-block"></div>
@@ -287,7 +289,8 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline waves-effect" id="close" data-bs-dismiss="modal"><i
                             class="fas fa-ban"></i> Cancelar</button>
-                    <button type="button" class="btn" id="addLab" name="addLab"><i class="fas fa-plus"></i> Agendar</button>
+                    <button type="button" class="btn" id="addLab" name="addLab"><i class="fas fa-plus"></i>
+                        Agendar</button>
                 </div>
             </div>
         </div>
@@ -310,9 +313,9 @@
 
     $("#H1").timepicker({
         timeFormat: 'HH:mm:ss',
-        interval: 20,
+        interval: 10,
         minTime: '08:00',
-        maxTime: '16:00',
+        maxTime: '16:50',
         startTime: '0',
         dynamic: false,
         dropdown: true,
@@ -329,8 +332,8 @@
 
     $("#H2").timepicker({
         timeFormat: 'HH:mm:ss',
-        interval: 20,
-        maxTime: '16:30',
+        interval: 10,
+        maxTime: '17:00',
         startTime: '0',
         dynamic: false,
         dropdown: true,
@@ -340,9 +343,9 @@
 
     $("#H3").timepicker({
         timeFormat: 'HH:mm:ss',
-        interval: 20,
+        interval: 10,
         minTime: '08:00',
-        maxTime: '16:00',
+        maxTime: '16:50',
         startTime: '0',
         dynamic: false,
         dropdown: true,
@@ -359,8 +362,8 @@
 
     $("#H4").timepicker({
         timeFormat: 'HH:mm:ss',
-        interval: 20,
-        maxTime: '16:30',
+        interval: 10,
+        maxTime: '17:00',
         startTime: '0',
         dynamic: false,
         dropdown: true,
@@ -370,9 +373,9 @@
 
     $("#H5").timepicker({
         timeFormat: 'HH:mm:ss',
-        interval: 20,
+        interval: 10,
         minTime: '06:00',
-        maxTime: '10:30',
+        maxTime: '10:50',
         startTime: '0',
         dynamic: false,
         dropdown: true,
@@ -389,7 +392,7 @@
 
     $("#H6").timepicker({
         timeFormat: 'HH:mm:ss',
-        interval: 20,
+        interval: 15,
         maxTime: '11:00',
         startTime: '0',
         dynamic: false,
@@ -472,130 +475,265 @@
     }
 
     $('#add').click(function () {
-      let data = DatosFormulario();
-      console.log(data)
-      if (!data) {
-        console.log('error')
-      } else {
-        agregarDatos(data);
-      }      
+        let data = DatosFormulario();
+        console.log(data)
+        if (!data) {
+            console.log('error')
+        } else {
+            agregarDatos(data);
+        }
     })
 
     function DatosFormulario() {
-      let data = {
-        Medico: $('#Medico').val(),        
-        Dia: $('#Dia').val(),
-        H1: $('#H1').val(),
-        H2: $('#H2').val()        
-      };
-      return data;
+        let data = {
+            Medico: $('#Medico').val(),
+            Dia: $('#Dia').val(),
+            H1: $('#H1').val(),
+            H2: $('#H2').val()
+        };
+        if (data.Medico == '0') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Debe seleccionar el doctor'
+            });
+            event.preventDefault();
+            return false;
+        }
+        if (data.Dia == '0') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Debe seleccionar el día'
+            });
+            event.preventDefault();
+            return false;
+        }
+        if (data.H1 == '') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Debe ingresar la hora de inicio'
+            });
+            event.preventDefault();
+            return false;
+        }
+        if (data.H2 == '') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Debe ingresar la hora de fin'
+            });
+            event.preventDefault();
+            return false;
+        }
+        if (data.H1 >= data.H2) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'La hora de fin no puede ser menor o igual a la de inicio'
+            });
+            event.preventDefault();
+            return false;
+        }
+        return data;
     }
 
     function agregarDatos(data) {
-      $.ajax({
-        type: 'POST',
-        url: '/createAgendaMed',
-        data: data,
-        success: function (msg) {
-          Swal.fire(
-            '¡Buen trabajo!',
-            '¡Se han enviado correctamente los datos!',
-            'success'
-          )
-        },
-        error: function (error) {
-          Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'Hubo un error'
-          })
-        }
-      });
+        $.ajax({
+            type: 'POST',
+            url: '/createAgendaMed',
+            data: data,
+            success: function (msg) {
+                Swal.fire(
+                    '¡Buen trabajo!',
+                    '¡Se han enviado correctamente los datos!',
+                    'success'
+                )
+            },
+            error: function (error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Hubo un error'
+                })
+            }
+        });
     }
 
     $('#addOdont').click(function () {
-      let data = DatosFormularioOdont();
-      console.log(data)
-      if (!data) {
-        console.log('error')
-      } else {
-        agregarDatosOdont(data);
-      }      
+        let data = DatosFormularioOdont();
+        console.log(data)
+        if (!data) {
+            console.log('error')
+        } else {
+            agregarDatosOdont(data);
+        }
     })
 
     function DatosFormularioOdont() {
-      let data = {
-        Odontologo: $('#Odontologo').val(),        
-        Dia1: $('#Dia1').val(),
-        H3: $('#H3').val(),
-        H4: $('#H4').val()        
-      };
-      return data;
+        let data = {
+            Odontologo: $('#Odontologo').val(),
+            Dia1: $('#Dia1').val(),
+            H3: $('#H3').val(),
+            H4: $('#H4').val()
+        };
+        if (data.Odontologo == '0') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Debe seleccionar el doctor'
+            });
+            event.preventDefault();
+            return false;
+        }
+        if (data.Dia1 == '0') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Debe seleccionar el día'
+            });
+            event.preventDefault();
+            return false;
+        }
+        if (data.H3 == '') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Debe ingresar la hora de inicio'
+            });
+            event.preventDefault();
+            return false;
+        }
+        if (data.H4 == '') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Debe ingresar la hora de fin'
+            });
+            event.preventDefault();
+            return false;
+        }
+        if (data.H3 >= data.H4) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'La hora de fin no puede ser menor o igual a la de inicio'
+            });
+            event.preventDefault();
+            return false;
+        }
+        return data;
     }
 
     function agregarDatosOdont(data) {
-      $.ajax({
-        type: 'POST',
-        url: '/createAgendaOdont',
-        data: data,
-        success: function (msg) {
-          Swal.fire(
-            '¡Buen trabajo!',
-            '¡Se han enviado correctamente los datos!',
-            'success'
-          )
-        },
-        error: function (error) {
-          Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'Hubo un error'
-          })
-        }
-      });
+        $.ajax({
+            type: 'POST',
+            url: '/createAgendaOdont',
+            data: data,
+            success: function (msg) {
+                Swal.fire(
+                    '¡Buen trabajo!',
+                    '¡Se han enviado correctamente los datos!',
+                    'success'
+                )
+            },
+            error: function (error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Hubo un error'
+                })
+            }
+        });
     }
 
 
     $('#addLab').click(function () {
-      let data = DatosFormularioLab();
-      console.log(data)
-      if (!data) {
-        console.log('error')
-      } else {
-        agregarDatosLab(data);
-      }      
+        let data = DatosFormularioLab();
+        console.log(data)
+        if (!data) {
+            console.log('error')
+        } else {
+            agregarDatosLab(data);
+        }
     })
 
     function DatosFormularioLab() {
-      let data = {
-        Laboratorio: $('#Lab').val(),        
-        Dia2: $('#Dia2').val(),
-        H5: $('#H5').val(),
-        H6: $('#H6').val()        
-      };
-      return data;
+        let data = {
+            Laboratorio: $('#Lab').val(),
+            Dia2: $('#Dia2').val(),
+            H5: $('#H5').val(),
+            H6: $('#H6').val()
+        };
+        if (data.Laboratorio == '0') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Debe seleccionar el doctor'
+            });
+            event.preventDefault();
+            return false;
+        }
+        if (data.Dia2 == '0') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Debe seleccionar el día'
+            });
+            event.preventDefault();
+            return false;
+        }
+        if (data.H5 == '') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Debe ingresar la hora de inicio'
+            });
+            event.preventDefault();
+            return false;
+        }
+        if (data.H6 == '') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Debe ingresar la hora de fin'
+            });
+            event.preventDefault();
+            return false;
+        }
+        if (data.H5 >= data.H6) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'La hora de fin no puede ser menor o igual a la de inicio'
+            });
+            event.preventDefault();
+            return false;
+        }
+        return data;
     }
 
     function agregarDatosLab(data) {
-      $.ajax({
-        type: 'POST',
-        url: '/createAgendaLab',
-        data: data,
-        success: function (msg) {
-          Swal.fire(
-            '¡Buen trabajo!',
-            '¡Se han enviado correctamente los datos!',
-            'success'
-          )
-        },
-        error: function (error) {
-          Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'Hubo un error'
-          })
-        }
-      });
+        $.ajax({
+            type: 'POST',
+            url: '/createAgendaLab',
+            data: data,
+            success: function (msg) {
+                Swal.fire(
+                    '¡Buen trabajo!',
+                    '¡Se han enviado correctamente los datos!',
+                    'success'
+                )
+            },
+            error: function (error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Hubo un error'
+                })
+            }
+        });
     }
 
 </script>

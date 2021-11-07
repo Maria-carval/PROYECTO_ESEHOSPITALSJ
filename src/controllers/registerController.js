@@ -1,5 +1,3 @@
-import connection from "../configs/connectDB";
-import {validationResult} from "express-validator";
 import registerService from "../services/registerService";
 
 let ObtenerPaginaRegistro = (req, res) => {

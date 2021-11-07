@@ -6,7 +6,7 @@ let BuscarEmail = (email) => {
     return new Promise((resolve, reject) => {
         try {
             connection.query(
-                "SELECT * from usuario where Correo = ? ", email,
+                "SELECT * FROM usuario WHERE Correo = ? ", email,
                 function(err, data) {
                     if (err) {
                         reject(err)
@@ -21,13 +21,28 @@ let BuscarEmail = (email) => {
     });
 };
 
-let compararContraseñas = (password, usuario) => {
+let BuscarId = (id) => {
+    return new Promise((resolve, reject) =>{
+        try {
+            connection.query("SELECT * FROM usuario WHERE idusuario = ?", id, function(err, data){
+                if (err) {
+                    reject(err)
+                }
+                let usuario = data[0];
+                resolve(usuario);
+            });
+        } catch (e) {
+            reject(e);
+        }
+    });
+};
 
+let compararContraseñas = (password, usuario) => {
     return new Promise(async (resolve, reject) => {
         try {            
             await bcrypt.compare(password, usuario.Password).then((isMatch) => {
                 if (isMatch) {
-                    console.log('SIUUUUUUUUUU')
+                    console.log('SIUUUUUU')
                     resolve(true);
                 } else {
                     console.log('OMBECOMOVASER')
@@ -38,26 +53,10 @@ let compararContraseñas = (password, usuario) => {
             reject(e);
         }
     });
-    
-    // return new Promise(async (resolve, reject) => {
-    //     try {
-    //         await bcrypt.compare(password, user.password).then((isMatch) => {
-    //             if (isMatch) {
-    //                 console.log('hola si, sonido')
-    //                 resolve(true);
-    //             } else {
-    //                 console.log('q ise')
-    //                 resolve(false);
-    //             }
-    //         });
-    //     } catch (e) {
-    //         reject(e);
-    //     }
-    // });
 };
 
-module.exports = {
-    compararContraseñas: compararContraseñas,
+module.exports = {    
     BuscarEmail: BuscarEmail,
-    // findUserById: findUserById
+    BuscarId: BuscarId,
+    compararContraseñas: compararContraseñas
 }
